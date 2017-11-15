@@ -1,0 +1,1 @@
+../target/scala-2.12/scalajs-bundler/main/scala-js-tutorial-fastopt-bundle.js

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>The Scala.js Tutorial</title>
+    <link href="/gitignore/css/vendor/bootstrap.min.css" rel="stylesheet">
+    <link href="/gitignore/css/flat-ui-pro.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        var testThing = {prop: "value1"};
+        var testFn = function() { console.log("testFn ", testThing) }
+        var bind = function(o) { return function() { console.log(o); }}
+    </script>
+</head>
+<body>
+<div id="root"></div>
+<!-- Include Scala.js compiled code @@@ -->
+<script type="text/javascript" src="/bundle.js"></script>
+<script src="/gitignore/js/vendor/jquery.min.js"></script>
+<script src="/gitignore/js/flat-ui-pro.min.js"></script>
+<script type="text/javascript">
+        console.log("file ", testThing);
+</script>
+</body>
+</html>
