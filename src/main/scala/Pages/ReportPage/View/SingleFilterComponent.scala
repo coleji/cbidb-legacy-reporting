@@ -4,7 +4,7 @@ import Pages.ReportPage.Messages.DeleteFilter
 import Pages.ReportPage.Messages.UpdateFilterType.UpdateFilterTypeJSON
 import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.ReportPageModel
-import core.Main.{Globals, Target}
+import core.Main.Target
 import core.Message.SpecificPageMessage
 import core.SnabbdomFacade.VNode
 import core.SnabbdomFacade.snabbdom.h
@@ -25,7 +25,6 @@ case class SingleFilterComponent(
     )
 
     val delete = js.Dynamic.literal("on" -> js.Dynamic.literal("click" -> (() => {
-      println("deleting!")
       val payload: js.Object = js.Dynamic.literal(
         "deleteType" -> DeleteFilter.DELETE_TYPE_SINGLE,
         "deleteHash" -> sf.hashCode()
@@ -35,9 +34,6 @@ case class SingleFilterComponent(
 
 
     val typeSelectProps = js.Dynamic.literal("on" -> js.Dynamic.literal("change" -> ((e: scalajs.dom.TextEvent) => {
-      Globals.testThing = e
-      Globals.testFn()
-      println(e.target.asInstanceOf[Target].value)
       val payload: UpdateFilterTypeJSON = js.Dynamic.literal(
         "sfHashCode" -> sf.hashCode().toString,
         "newValue" -> e.target.asInstanceOf[Target].value

@@ -29,21 +29,19 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
             val rawJSON: js.Object = JSON.parse(rawResult).asInstanceOf[js.Object]
             rawJSON.asInstanceOf[ReportableEntityResultWrapper]
           })
-          case e: Failure[SimpleHttpResponse] => println("Huston, we got a problem!")
+          case e: Failure[SimpleHttpResponse] => println("Async call failed")
         })
         MarkInitialized(view)(model)()
         h("div#page", "uninitialized!": js.Any)
       }
       case Waiting => {
-        println("Screen really should say 'waiting' right now")
         h("div#page1", js.Array(
           h("span#yo", "waiting!": js.Any)
         ))
       }
       case AsyncSuccess(_: js.Array[ReportableEntity]) => {
-        println("qwqwqwqw")
         val entityDropdown = EntityDropdown(SetEntity(view)(model))(model)
-        println("filter state is " + model.getSpecString)
+        val verticalAlignTop = js.Dynamic.literal("style" -> js.Dynamic.literal("verticalAlign" -> ("top": js.Any)))
         val submitProps = js.Dynamic.literal("props" -> js.Dynamic.literal("href" -> URIUtils.encodeURI(
           "http://localhost:9000/report?baseEntityString=" +
           model.selectedEntity.get.entityName +
@@ -67,7 +65,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
                 AddNestedCompositeFilter(view)(model)
               )(model, 0, cf)
             }),
-            h("td", FieldsComponent(model))
+            h("td", verticalAlignTop, FieldsComponent(model))
           )))),
           h("br"),
           h("a", submitProps, "Run Report": js.Any)

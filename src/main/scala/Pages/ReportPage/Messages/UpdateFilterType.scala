@@ -9,7 +9,6 @@ object UpdateFilterType extends Message[ReportPageModel,js.Object] {
   def update: ReportPageModel => js.Object => ReportPageModel =
     model => updateFilterTypeJSON => {
       val updateFilterValueJSONCast = updateFilterTypeJSON.asInstanceOf[UpdateFilterTypeJSON]
-      println("model updating!" + "   " + updateFilterValueJSONCast.sfHashCode + "  " + updateFilterValueJSONCast.newValue)
       model.cloneAndUpdateType(updateFilterValueJSONCast.sfHashCode, updateFilterValueJSONCast.newValue)
     }
 

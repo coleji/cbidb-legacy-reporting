@@ -10,7 +10,8 @@ import scala.scalajs.js
 case class ReportPageModel(
   options: AsyncOption[js.Array[ReportableEntity]],
   selectedEntity: Option[ReportableEntity],
-  filters: Option[CompositeFilter]
+  filters: Option[CompositeFilter],
+  fields: Option[Set[ReportField]]
 ) extends Model {
   def getOptions: js.Array[ReportableEntity] = options match {
     case AsyncSuccess(a: js.Array[ReportableEntity]) => a
@@ -31,12 +32,9 @@ case class ReportPageModel(
 
   // TODO: replace with single clone function that takes callbacks or something
   def cloneAndUpdateType(hashCode: String, value: String): ReportPageModel = {
-    println("here we go!")
     def recurseThroughFilters[T <: FilterExpression](filter: T): T = filter match {
       case sf: SingleFilter => {
-        println("checking hashcode " + sf.hashCode().toString)
         if (sf.hashCode().toString == hashCode) {
-          println("Found a match!")
           val typeDef = findFilterTypeDefinition(value)
           new SingleFilter(ReportFilterValue(typeDef.get, typeDef.get.default)).asInstanceOf[T]
         } else sf.asInstanceOf[T]
@@ -50,17 +48,15 @@ case class ReportPageModel(
       filters match {
         case None => None
         case Some(e: FilterExpression) => Some(recurseThroughFilters(e))
-      }
+      },
+      fields
     )
   }
 
   def cloneAndUpdateValue(hashCode: String, value: String): ReportPageModel = {
-    println("here we go!")
     def recurseThroughFilters[T <: FilterExpression](filter: T): T = filter match {
       case sf: SingleFilter => {
-        println("checking hashcode " + sf.hashCode().toString)
         if (sf.hashCode().toString == hashCode) {
-          println("Found a match!")
           new SingleFilter(ReportFilterValue(sf.filter.definition, value)).asInstanceOf[T]
         } else sf.asInstanceOf[T]
       }
@@ -73,7 +69,8 @@ case class ReportPageModel(
       filters match {
         case None => None
         case Some(e: FilterExpression) => Some(recurseThroughFilters(e))
-      }
+      },
+      fields
     )
   }
 
@@ -99,7 +96,8 @@ case class ReportPageModel(
       filters match {
         case None => None
         case Some(e: FilterExpression) => Some(recurseThroughFilters(e))
-      }
+      },
+      fields
     )
   }
 
@@ -130,12 +128,12 @@ case class ReportPageModel(
       filters match {
         case None => None
         case Some(e: FilterExpression) => Some(recurseThroughFilters(e))
-      }
+      },
+      fields
     )
   }
 
   def cloneAndDropExpression(payload: DeleteFilterPayload): ReportPageModel = {
-    println("clone and drop!")
     def recurseThroughFilters[T <: FilterExpression](filter: T): T = filter match {
       case sf: SingleFilter => sf.asInstanceOf[T]
       case cf: CompositeFilter => new CompositeFilter(cf.comparator, cf.filters.filter(f => payload.deleteType match {
@@ -150,7 +148,8 @@ case class ReportPageModel(
       filters match {
         case None => None
         case Some(e: FilterExpression) => Some(recurseThroughFilters(e))
-      }
+      },
+      fields
     )
   }
 }

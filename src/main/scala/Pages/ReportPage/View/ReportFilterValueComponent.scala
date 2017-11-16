@@ -17,7 +17,6 @@ case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: Speci
       "sfHashCode" -> sf.hashCode().toString,
       "newValue" -> e.target.asInstanceOf[Target].value
     ).asInstanceOf[UpdateFilterValueJSON]
-    println(e.target.asInstanceOf[Target].value)
     updateFilterValue(payload)
   }))
 

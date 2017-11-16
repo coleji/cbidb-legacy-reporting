@@ -26,10 +26,8 @@ class AsyncPageView(render: VNode => Unit) extends View[AsyncPageModel](render) 
   }
 
   def apply(model: AsyncPageModel): VNode = {
-    println("rendering!")
     model.result match {
       case Uninitialized => {
-        println("uninitialized!")
         val request = HttpRequest("http://localhost:9000/jp-teams")
         request.send().onComplete({
           case res:Success[SimpleHttpResponse] => {
@@ -42,22 +40,17 @@ class AsyncPageView(render: VNode => Unit) extends View[AsyncPageModel](render) 
             }
             AsyncSuccessMessage(view)(model)(teamList)
           }
-          case e: Failure[SimpleHttpResponse] => println("Huston, we got a problem!")
+          case e: Failure[SimpleHttpResponse] => println("Async call failed")
         })
         MarkInitialized(view)(model)()
         h("div#page", "uninitialized!": js.Any)
       }
       case Waiting => {
-        println("waiting!")
         h("div#page", js.Array(
           h("span#yo", "waiting!": js.Any)
         ))
       }
       case AsyncSuccess(teams: js.Array[JpTeam]) => {
-        println("woo success!")
-
-        println(teams)
-        //println(model.get)
         h("div#page",
           h("ul", teams.map(t => h("li", t.teamName + ": " + t.points: js.Any)))
         )

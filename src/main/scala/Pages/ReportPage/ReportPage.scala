@@ -6,6 +6,6 @@ import core.SnabbdomFacade.VNode
 import core.{Page, Uninitialized}
 
 case class ReportPage(render: (VNode => Unit)) extends Page[ReportPageModel](render) {
-  val defaultModel: ReportPageModel = ReportPageModel(Uninitialized, None, None)
+  val defaultModel: ReportPageModel = ReportPageModel(Uninitialized, None, None, None)
   val view = new ReportPageView(render)
 }

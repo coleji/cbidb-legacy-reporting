@@ -7,7 +7,6 @@ import core.Message
 object SearchModelForHash extends Message[ReportPageModel, Int] {
   def update: ReportPageModel => Int => ReportPageModel =
     model => hashCode => {
-      println("click!")
       def getSingleFiltersFromComposite(cf: CompositeFilter): List[SingleFilter] = {
         cf.filters.flatMap({
           case s: SingleFilter => List(s)
@@ -19,7 +18,6 @@ object SearchModelForHash extends Message[ReportPageModel, Int] {
         case Some(cf: CompositeFilter) => getSingleFiltersFromComposite(cf)
       }
       val matchingFilters = allSingleFilters.filter(f => f.hashCode == hashCode)
-      println(matchingFilters)
       model
     }
 }

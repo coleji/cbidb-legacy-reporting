@@ -40,7 +40,8 @@ object SuccessMessage extends Message[ReportPageModel, ReportableEntityResultWra
             new SingleFilter(ReportFilterValue(filterYear, "2018")),
             new SingleFilter(ReportFilterValue(filterType, "1"))
           )))
-        ))
+        )),
+        Some(Set(apClassInstance.fieldData(2)))
       )
     }
 }

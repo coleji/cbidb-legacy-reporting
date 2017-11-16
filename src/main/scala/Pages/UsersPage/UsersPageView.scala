@@ -27,10 +27,8 @@ class UsersPageView (render: VNode => Unit) extends View[UsersPageModel](render)
       _ => users => UsersPageModel(AsyncSuccess(users.asInstanceOf[js.Array[User]]))
   }
   def apply(model: UsersPageModel): VNode = {
-    println("rendering!")
     model.result match {
       case Uninitialized => {
-        println("uninitialized!")
         val request = HttpRequest("http://localhost:9000/users")
         request.send().onComplete({
           case res:Success[SimpleHttpResponse] => SuccessMessage(view)(model)({
@@ -39,22 +37,17 @@ class UsersPageView (render: VNode => Unit) extends View[UsersPageModel](render)
             val asApiResult = rawJSON.asInstanceOf[ApiResult]
             User.parse(asApiResult): js.Array[User]
           })
-          case e: Failure[SimpleHttpResponse] => println("Huston, we got a problem!")
+          case e: Failure[SimpleHttpResponse] => println("Async call failed")
         })
         MarkInitialized(view)(model)
         h("div#page", "uninitialized!": js.Any)
       }
       case Waiting => {
-        println("waiting!")
         h("div#page", js.Array(
           h("span#yo", "waiting!": js.Any)
         ))
       }
       case AsyncSuccess(users: js.Array[User]) => {
-        println("woo success!")
-
-        println(users)
-        //println(model.get)
         h("div#page",
           h("div#t1.container", h("div", h("div", h("table", h("tbody", h("tr", h("td",
             h("table#apInstances.table.table-striped", js.Array(
