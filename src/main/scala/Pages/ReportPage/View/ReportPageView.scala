@@ -55,17 +55,20 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
         h("div#whatever", js.Array(
           entityDropdown,
           h("br"),
-          model.filters match {
-            case None => h("span", "no filters": js.Any)
-            case Some(cf: CompositeFilter) => FiltersComponent(
-              SearchModelForHash(view)(model),
-              UpdateFilterValue(view)(model),
-              UpdateFilterType(view)(model),
-              AddSingleFilter(view)(model),
-              DeleteFilter(view)(model),
-              AddNestedCompositeFilter(view)(model)
-            )(model, 0, cf)
-          },
+          h("table", h("tbody", h("tr", js.Array(
+            h("td", model.filters match {
+              case None => h("span", "no filters": js.Any)
+              case Some(cf: CompositeFilter) => FiltersComponent(
+                SearchModelForHash(view)(model),
+                UpdateFilterValue(view)(model),
+                UpdateFilterType(view)(model),
+                AddSingleFilter(view)(model),
+                DeleteFilter(view)(model),
+                AddNestedCompositeFilter(view)(model)
+              )(model, 0, cf)
+            }),
+            h("td", FieldsComponent(model))
+          )))),
           h("br"),
           h("a", submitProps, "Run Report": js.Any)
         ))
