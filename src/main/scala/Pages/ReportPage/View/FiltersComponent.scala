@@ -48,11 +48,11 @@ case class FiltersComponent (
           addNestedCompositeFilter
         )(model, level + 1, cfInner)))
     }).flatMap(tr => List(
-      tr,
-      h("tr", h("td", cf.comparator.toString: js.Any))
-    )).toJSArray
+      h("tr", h("td", cf.comparator.toString: js.Any)),
+      tr
+    )).toJSArray.tail
       .concat(js.Array(
-        h("button.btn.btn-default.btn-xs", addSingleFilterProps, downTriangle: js.Any),
+        h("button.btn.btn-default.btn-xs", addSingleFilterProps, cf.comparator.toString: js.Any),
         h("span", "   ": js.Any),
         h("button.btn.btn-default.btn-xs", addNestedCompositeFilterProps, rightTriangle: js.Any)
       ))

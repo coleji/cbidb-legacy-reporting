@@ -51,7 +51,6 @@ case class SingleFilterComponent(
     )
 
     h("tr", js.Array(
-      h("td", cellPadding, h("span", delete, h("img", imgProps))),
       h("td", cellPadding,
         h("select", typeSelectProps, model.selectedEntity.get.filterData.map(f => {
           val props = if(sf.filter.definition.filterName == f.filterName) {
@@ -67,7 +66,8 @@ case class SingleFilterComponent(
           h("option", props, f.displayName: js.Any)
         }))
       ),
-      h("td", cellPadding, ReportFilterValueComponent(sf, updateFilterValue).render)
+      h("td", cellPadding, ReportFilterValueComponent(sf, updateFilterValue).render),
+      h("td", cellPadding, h("span", delete, h("img", imgProps)))
     ))
   }
 }
