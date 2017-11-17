@@ -13,7 +13,6 @@ case class FieldsComponent(
   updateFields: SpecificPageMessage[js.Array[js.Any]]
 ) {
   def apply(model: ReportPageModel): VNode = {
-    println(model.fields)
     val selectProps = js.Dynamic.literal(
       "props" -> js.Dynamic.literal(
         "multiple" -> ("multiple": js.Any),

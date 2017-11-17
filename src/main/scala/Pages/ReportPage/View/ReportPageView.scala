@@ -46,15 +46,18 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           "padding" -> "25px",
           "width" -> "50%"
         ))
-        val submitProps = js.Dynamic.literal("props" -> js.Dynamic.literal("href" -> URIUtils.encodeURI(
-          "http://localhost:9000/report?baseEntityString=" +
-          model.selectedEntity.get.entityName +
-          "&filterSpec=" +
-          model.getSpecString +
-          "&fieldSpec=" +
-          model.fields.get.map(f => f.fieldName).mkString(",") +
-          "&outputType=tsv"
-        )))
+        val submitProps = js.Dynamic.literal("props" -> js.Dynamic.literal(
+          "href" -> URIUtils.encodeURI(
+            "http://localhost:9000/report?baseEntityString=" +
+            model.selectedEntity.get.entityName +
+            "&filterSpec=" +
+            model.getSpecString +
+            "&fieldSpec=" +
+            model.fields.get.map(f => f.fieldName).mkString(",") +
+            "&outputType=tsv"
+          ),
+          "type" -> "button"
+        ))
         val fullWidth = js.Dynamic.literal("style" -> js.Dynamic.literal("width" -> "100%"))
         h("div#whatever", js.Array(
           entityDropdown,
@@ -74,7 +77,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
             h("td", tdStyle, FieldsComponent(UpdateFields(view)(model))(model))
           )))),
           h("br"),
-          h("a", submitProps, "Run Report": js.Any)
+          h("button.btn.btn-primary", submitProps, "Run Report": js.Any)
         ))
       }
     }

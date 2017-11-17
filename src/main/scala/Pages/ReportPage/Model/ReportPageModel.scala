@@ -134,21 +134,26 @@ case class ReportPageModel(
   }
 
   def cloneAndDropExpression(payload: DeleteFilterPayload): ReportPageModel = {
-    def recurseThroughFilters[T <: FilterExpression](filter: T): T = filter match {
+    def recurseAndDropTarget[T <: FilterExpression](filter: T): T = filter match {
       case sf: SingleFilter => sf.asInstanceOf[T]
       case cf: CompositeFilter => new CompositeFilter(cf.comparator, cf.filters.filter(f => payload.deleteType match {
         case DeleteFilter.DELETE_TYPE_SINGLE => !f.isInstanceOf[SingleFilter] || f.hashCode() != payload.deleteHash
         case DeleteFilter.DELETE_TYPE_COMPOSITE => !f.isInstanceOf[CompositeFilter] || f.hashCode() != payload.deleteHash
-      }).map(recurseThroughFilters)).asInstanceOf[T]
+      }).map(recurseAndDropTarget)).asInstanceOf[T]
+    }
+
+    def recurseAndDropEmptyComposites[T <: FilterExpression](filter: T): T = filter match {
+      case sf: SingleFilter => sf.asInstanceOf[T]
+      case cf: CompositeFilter => new CompositeFilter(cf.comparator, cf.filters.filter({
+        case _: SingleFilter => true
+        case cf1: CompositeFilter => cf1.filters.nonEmpty
+      }).map(recurseAndDropEmptyComposites)).asInstanceOf[T]
     }
 
     ReportPageModel(
       options,
       selectedEntity,
-      filters match {
-        case None => None
-        case Some(e: FilterExpression) => Some(recurseThroughFilters(e))
-      },
+      Some(recurseAndDropEmptyComposites(recurseAndDropTarget(filters.get))),
       fields
     )
   }

@@ -34,28 +34,35 @@ case class FiltersComponent (
       "textAlign" -> "right",
       "paddingRight" -> "5px"
     ))
-    val downTriangle = "\u25BC"
-    val rightTriangle = "\u25B6"
-    val filterNodes: js.Array[VNode] = cf.filters.map({
-      case sf: SingleFilter => SingleFilterComponent(searchModelForHashCode, updateFilterValue, updateFilterType, deleteFilter)(model)(sf)
-      case cfInner: CompositeFilter =>
-        h("tr", h("td.filter", colspan2, FiltersComponent(
-          searchModelForHashCode,
-          updateFilterValue,
-          updateFilterType,
-          addSingleFilter,
-          deleteFilter,
-          addNestedCompositeFilter
-        )(model, level + 1, cfInner)))
-    }).flatMap(tr => List(
-      h("tr", h("td", cf.comparator.toString: js.Any)),
-      tr
-    )).toJSArray.tail
-      .concat(js.Array(
+
+    val filterNodes: js.Array[VNode] = {
+      val filterTRs: List[VNode] = cf.filters.map({
+        case sf: SingleFilter => SingleFilterComponent(searchModelForHashCode, updateFilterValue, updateFilterType, deleteFilter)(model)(sf)
+        case cfInner: CompositeFilter =>
+          h("tr", h("td.filter", colspan2, FiltersComponent(
+            searchModelForHashCode,
+            updateFilterValue,
+            updateFilterType,
+            addSingleFilter,
+            deleteFilter,
+            addNestedCompositeFilter
+          )(model, level + 1, cfInner)))
+      }).flatMap(tr => List(
+        h("tr", h("td", cf.comparator.toString: js.Any)),
+        tr
+      ))
+
+      val buttons = js.Array(
         h("button.btn.btn-default.btn-xs", addSingleFilterProps, cf.comparator.toString: js.Any),
         h("span", "   ": js.Any),
-        h("button.btn.btn-default.btn-xs", addNestedCompositeFilterProps, rightTriangle: js.Any)
-      ))
+        h("button.btn.btn-default.btn-xs", addNestedCompositeFilterProps, "(": js.Any)
+      )
+
+      filterTRs match {
+        case Nil => buttons
+        case x :: xs => xs.toJSArray ++ buttons
+      }
+    }
 
     val spacerChildren: js.Array[VNode] = {
       if (level > 0) {
