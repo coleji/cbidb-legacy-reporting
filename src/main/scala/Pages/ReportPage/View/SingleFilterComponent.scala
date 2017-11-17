@@ -55,11 +55,16 @@ case class SingleFilterComponent(
       h("td", cellPadding,
         h("select", typeSelectProps, model.selectedEntity.get.filterData.map(f => {
           val props = if(sf.filter.definition.filterName == f.filterName) {
-            js.Dynamic.literal("props" -> js.Dynamic.literal("selected" -> "selected"))
+            js.Dynamic.literal("props" -> js.Dynamic.literal(
+              "selected" -> "selected",
+              "value" -> f.filterName
+            ))
           } else {
-            js.Dynamic.literal()
+            js.Dynamic.literal("props" -> js.Dynamic.literal(
+              "value" -> f.filterName
+            ))
           }
-          h("option", props, f.filterName: js.Any)
+          h("option", props, f.displayName: js.Any)
         }))
       ),
       h("td", cellPadding, ReportFilterValueComponent(sf, updateFilterValue).render)

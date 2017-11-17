@@ -16,24 +16,16 @@ object SetEntity extends Message[ReportPageModel, String] {
             val filterYear: ReportFilterDefinition = selectedEntity.filterData.filter(_.filterName == "ApClassInstanceFilterYear").head
             val filterType: ReportFilterDefinition = selectedEntity.filterData.filter(_.filterName == "ApClassInstanceFilterType").head
             ReportPageModel(model.options, Some(selectedEntity), Some(new CompositeFilter(Comparator.AND, List(
-              new CompositeFilter(Comparator.OR, List(
-                new SingleFilter(ReportFilterValue(filterYear, "2015")),
-                new SingleFilter(ReportFilterValue(filterYear, "2016")),
-                new SingleFilter(ReportFilterValue(filterYear, "2016")),
-                new SingleFilter(ReportFilterValue(filterYear, "2018")),
-                new SingleFilter(ReportFilterValue(filterType, "1"))
-              ))))),
+                new SingleFilter(ReportFilterValue(filterYear, "2017"))
+              ))),
               Some(Set(selectedEntity.fieldData.head))
             )
           } else if (selectedEntity.entityName == "JpClassInstance") {
             val filterYear: ReportFilterDefinition = selectedEntity.filterData.filter(_.filterName == "JpClassInstanceFilterYear").head
             val filterType: ReportFilterDefinition = selectedEntity.filterData.filter(_.filterName == "JpClassInstanceFilterType").head
             ReportPageModel(model.options, Some(selectedEntity), Some(new CompositeFilter(Comparator.AND, List(
-              new CompositeFilter(Comparator.OR, List(
-                new SingleFilter(ReportFilterValue(filterType, "1")),
-                new SingleFilter(ReportFilterValue(filterType, "2")),
-                new SingleFilter(ReportFilterValue(filterYear, "2016"))
-              ))))),
+                new SingleFilter(ReportFilterValue(filterYear, "2017"))
+              ))),
               Some(Set(selectedEntity.fieldData.head))
             )
           } else {

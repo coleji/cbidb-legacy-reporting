@@ -57,7 +57,6 @@ case class FiltersComponent (
         h("button.btn.btn-default.btn-xs", addNestedCompositeFilterProps, rightTriangle: js.Any)
       ))
 
-    println("\u2400")
     val spacerChildren: js.Array[VNode] = {
       if (level > 0) {
         val payload: js.Object = js.Dynamic.literal(
@@ -74,7 +73,7 @@ case class FiltersComponent (
       } else js.Array()
     }
 
-    val borderRight = js.Dynamic.literal("style" -> js.Dynamic.literal("border-right" -> "1px solid black"))
+    val borderRight = js.Dynamic.literal("style" -> js.Dynamic.literal("border-right" -> "1px solid #aaaaaa"))
     val paddingLeft = js.Dynamic.literal("style" -> js.Dynamic.literal("paddingLeft" -> "5px"))
 
     h("table", h("tbody", h("tr", js.Array(

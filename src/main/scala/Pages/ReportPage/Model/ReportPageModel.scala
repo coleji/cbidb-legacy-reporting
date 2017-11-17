@@ -152,5 +152,16 @@ case class ReportPageModel(
       fields
     )
   }
+
+  def cloneAndSetFilters(fieldIDs: js.Array[js.Any]): ReportPageModel = {
+    val fieldIDSet = fieldIDs.toSet
+    println(selectedEntity.get.fieldData.filter(f => fieldIDSet contains f.fieldName).toSet)
+    ReportPageModel(
+      options,
+      selectedEntity,
+      filters,
+      Some(selectedEntity.get.fieldData.filter(f => fieldIDSet contains f.fieldName).toSet)
+    )
+  }
 }
 

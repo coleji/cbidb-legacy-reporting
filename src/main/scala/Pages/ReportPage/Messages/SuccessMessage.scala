@@ -33,14 +33,8 @@ object SuccessMessage extends Message[ReportPageModel, ReportableEntityResultWra
         AsyncSuccess(entities),
         Some(apClassInstance),
         Some(new CompositeFilter(Comparator.AND, List(
-          new CompositeFilter(Comparator.OR, List(
-            new SingleFilter(ReportFilterValue(filterYear, "2015")),
-            new SingleFilter(ReportFilterValue(filterYear, "2016")),
-            new SingleFilter(ReportFilterValue(filterYear, "2016")),
-            new SingleFilter(ReportFilterValue(filterYear, "2018")),
-            new SingleFilter(ReportFilterValue(filterType, "1"))
-          )))
-        )),
+          new SingleFilter(ReportFilterValue(filterYear, "2017")),
+        ))),
         Some(Set(apClassInstance.fieldData(2)))
       )
     }

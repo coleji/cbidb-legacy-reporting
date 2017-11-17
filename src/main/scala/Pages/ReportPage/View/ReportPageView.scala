@@ -51,7 +51,8 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           model.selectedEntity.get.entityName +
           "&filterSpec=" +
           model.getSpecString +
-          "&fieldSpec=TypeId,TypeName" +
+          "&fieldSpec=" +
+          model.fields.get.map(f => f.fieldName).mkString(",") +
           "&outputType=tsv"
         )))
         val fullWidth = js.Dynamic.literal("style" -> js.Dynamic.literal("width" -> "100%"))
@@ -70,7 +71,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
                 AddNestedCompositeFilter(view)(model)
               )(model, 0, cf)
             }),
-            h("td", tdStyle, FieldsComponent(model))
+            h("td", tdStyle, FieldsComponent(UpdateFields(view)(model))(model))
           )))),
           h("br"),
           h("a", submitProps, "Run Report": js.Any)

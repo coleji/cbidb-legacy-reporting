@@ -11,7 +11,8 @@ import scala.scalajs.js.annotation.JSGlobalScope
 object Main {
   @js.native
   class Target extends js.Object {
-    def value: js.Any = js.native
+    val value: js.Any = js.native
+    val selectedOptions: js.Array[Target] = js.native
   }
 
   @js.native
