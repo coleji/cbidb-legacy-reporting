@@ -41,7 +41,11 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
       }
       case AsyncSuccess(_: js.Array[ReportableEntity]) => {
         val entityDropdown = EntityDropdown(SetEntity(view)(model))(model)
-        val verticalAlignTop = js.Dynamic.literal("style" -> js.Dynamic.literal("verticalAlign" -> ("top": js.Any)))
+        val tdStyle = js.Dynamic.literal("style" -> js.Dynamic.literal(
+          "verticalAlign" -> ("top": js.Any),
+          "padding" -> "25px",
+          "width" -> "50%"
+        ))
         val submitProps = js.Dynamic.literal("props" -> js.Dynamic.literal("href" -> URIUtils.encodeURI(
           "http://localhost:9000/report?baseEntityString=" +
           model.selectedEntity.get.entityName +
@@ -50,11 +54,12 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           "&fieldSpec=TypeId,TypeName" +
           "&outputType=tsv"
         )))
+        val fullWidth = js.Dynamic.literal("style" -> js.Dynamic.literal("width" -> "100%"))
         h("div#whatever", js.Array(
           entityDropdown,
           h("br"),
-          h("table", h("tbody", h("tr", js.Array(
-            h("td", model.filters match {
+          h("table", fullWidth, h("tbody", h("tr", js.Array(
+            h("td", tdStyle, model.filters match {
               case None => h("span", "no filters": js.Any)
               case Some(cf: CompositeFilter) => FiltersComponent(
                 SearchModelForHash(view)(model),
@@ -65,7 +70,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
                 AddNestedCompositeFilter(view)(model)
               )(model, 0, cf)
             }),
-            h("td", verticalAlignTop, FieldsComponent(model))
+            h("td", tdStyle, FieldsComponent(model))
           )))),
           h("br"),
           h("a", submitProps, "Run Report": js.Any)

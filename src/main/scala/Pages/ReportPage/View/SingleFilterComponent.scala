@@ -24,14 +24,18 @@ case class SingleFilterComponent(
       "on" -> js.Dynamic.literal("click" -> (() => {searchModelForHashCode(sf.hashCode())}))
     )
 
-    val delete = js.Dynamic.literal("on" -> js.Dynamic.literal("click" -> (() => {
-      val payload: js.Object = js.Dynamic.literal(
-        "deleteType" -> DeleteFilter.DELETE_TYPE_SINGLE,
-        "deleteHash" -> sf.hashCode()
-      )
-      deleteFilter(payload)
-    })))
+    val cellPadding = js.Dynamic.literal("style" -> js.Dynamic.literal("padding" -> "3px 5px"))
 
+    val delete = js.Dynamic.literal(
+      "on" -> js.Dynamic.literal("click" -> (() => {
+        val payload: js.Object = js.Dynamic.literal(
+          "deleteType" -> DeleteFilter.DELETE_TYPE_SINGLE,
+          "deleteHash" -> sf.hashCode()
+        )
+        deleteFilter(payload)
+      })),
+      "style" -> js.Dynamic.literal("cursor" -> "pointer")
+    )
 
     val typeSelectProps = js.Dynamic.literal("on" -> js.Dynamic.literal("change" -> ((e: scalajs.dom.TextEvent) => {
       val payload: UpdateFilterTypeJSON = js.Dynamic.literal(
@@ -41,9 +45,14 @@ case class SingleFilterComponent(
       updateFilterType(payload)
     })))
 
+    val imgProps = js.Dynamic.literal(
+      "props" -> js.Dynamic.literal("src" -> "/images/trashcan.svg"),
+      "style" -> js.Dynamic.literal("width" -> "25px")
+    )
+
     h("tr", js.Array(
-      h("td", js.Array(
-        h("span", delete, "X": js.Any),
+      h("td", cellPadding, h("span", delete, h("img", imgProps))),
+      h("td", cellPadding,
         h("select", typeSelectProps, model.selectedEntity.get.filterData.map(f => {
           val props = if(sf.filter.definition.filterName == f.filterName) {
             js.Dynamic.literal("props" -> js.Dynamic.literal("selected" -> "selected"))
@@ -51,9 +60,9 @@ case class SingleFilterComponent(
             js.Dynamic.literal()
           }
           h("option", props, f.filterName: js.Any)
-        })))
+        }))
       ),
-      h("td", ReportFilterValueComponent(sf, updateFilterValue).render)
+      h("td", cellPadding, ReportFilterValueComponent(sf, updateFilterValue).render)
     ))
   }
 }
