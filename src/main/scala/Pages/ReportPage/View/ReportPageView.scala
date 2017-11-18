@@ -1,5 +1,6 @@
 package Pages.ReportPage.View
 
+import Components.HiddenInput
 import JSONDecoders._
 import Pages.ReportPage.Messages._
 import Pages.ReportPage.Model.FilterState.CompositeFilter
@@ -10,6 +11,7 @@ import core._
 import fr.hmil.roshttp.HttpRequest
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import monix.execution.Scheduler.Implicits.global
+import org.scalajs.dom.document
 
 import scala.scalajs.js
 import scala.scalajs.js.Dynamic.{literal => json}
@@ -47,18 +49,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           "padding" -> "25px",
           "width" -> "50%"
         ))
-        val submitProps = json("props" -> json(
-          "href" -> URIUtils.encodeURI(
-            "http://localhost:9000/report?baseEntityString=" +
-            model.selectedEntity.get.entityName +
-            "&filterSpec=" +
-            model.getSpecString +
-            "&fieldSpec=" +
-            model.fields.get.map(f => f.fieldName).mkString(",") +
-            "&outputType=tsv"
-          ),
-          "type" -> "button"
-        ))
+
         val fullWidth = json("style" -> json("width" -> "100%"))
         h("div#whatever", js.Array(
           entityDropdown,
@@ -78,7 +69,13 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
             h("td", tdStyle, FieldsComponent(UpdateFields(view)(model))(model))
           )))),
           h("br"),
-          h("button.btn.btn-primary", submitProps, "Run Report": js.Any)
+          h("form", {json("props" -> json("method" -> "get", "action" -> "http://localhost:9000/report"))}, js.Array(
+            HiddenInput("baseEntityString", model.selectedEntity.get.entityName),
+            HiddenInput("filterSpec", model.getSpecString),
+            HiddenInput("fieldSpec", model.fields.get.map(f => f.fieldName).mkString(",")),
+            HiddenInput("outputType", "tsv"),
+            h("button.btn.btn-primary", json("props" -> json("type" -> "submit")), "Run Report": js.Any)
+          ))
         ))
       }
     }
