@@ -8,17 +8,18 @@ import core.SnabbdomFacade.snabbdom.h
 import org.scalajs
 
 import scala.scalajs.js
+import scala.scalajs.js.Dynamic.{literal => json}
 
 case class FieldsComponent(
   updateFields: SpecificPageMessage[js.Array[js.Any]]
 ) {
   def apply(model: ReportPageModel): VNode = {
-    val selectProps = js.Dynamic.literal(
-      "props" -> js.Dynamic.literal(
+    val selectProps = json(
+      "props" -> json(
         "multiple" -> ("multiple": js.Any),
         "size" -> ("15": js.Any)
       ),
-      "on" -> js.Dynamic.literal("change" -> ((e: scalajs.dom.TextEvent) => {
+      "on" -> json("change" -> ((e: scalajs.dom.TextEvent) => {
         val selectedOptions: js.Array[js.Any] = e.target.asInstanceOf[Target].selectedOptions.map(_.value)
         updateFields(selectedOptions)
       }))
@@ -26,12 +27,12 @@ case class FieldsComponent(
     h("select#fields_" + model.hashCode().toString, selectProps, model.selectedEntity.get.fieldData.map(rf => {
       val props = {
         if (model.fields.get.contains(rf)) {
-          js.Dynamic.literal("props" -> js.Dynamic.literal(
+          json("props" -> json(
             "selected" -> "selected",
             "value" -> (rf.fieldName: js.Any)
           ))
         } else {
-          js.Dynamic.literal("props" -> js.Dynamic.literal(
+          json("props" -> json(
             "selected" -> "",
             "value" -> (rf.fieldName: js.Any)
           ))

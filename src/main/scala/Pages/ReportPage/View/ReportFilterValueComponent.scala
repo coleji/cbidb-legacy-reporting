@@ -10,10 +10,11 @@ import core.SnabbdomFacade.snabbdom.h
 import org.scalajs
 
 import scala.scalajs.js
+import scala.scalajs.js.Dynamic.{literal => json}
 
 case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: SpecificPageMessage[js.Object]) {
-  def onProps(eventType: String): js.Object = js.Dynamic.literal(eventType -> ((e: scalajs.dom.TextEvent) => {
-    val payload: UpdateFilterValueJSON = js.Dynamic.literal(
+  def onProps(eventType: String): js.Object = json(eventType -> ((e: scalajs.dom.TextEvent) => {
+    val payload: UpdateFilterValueJSON = json(
       "sfHashCode" -> sf.hashCode().toString,
       "newValue" -> e.target.asInstanceOf[Target].value
     ).asInstanceOf[UpdateFilterValueJSON]
@@ -22,16 +23,16 @@ case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: Speci
 
   def render: VNode = sf.filter.definition.filterType match {
     case FilterType.INT_FILTER_TYPE => {
-      val props = js.Dynamic.literal(
-        "props" -> js.Dynamic.literal("type" -> "input", "value" -> sf.filter.value.toString, "size" -> "10"),
+      val props = json(
+        "props" -> json("type" -> "input", "value" -> sf.filter.value.toString, "size" -> "10"),
         "on" -> onProps("input")
       )
       h("input", props)
     }
-    case FilterType.DROPDOWN_FILTER_TYPE => h("select", js.Dynamic.literal("on" -> onProps("change")), sf.filter.definition.dropdownValues.map(dv => {
+    case FilterType.DROPDOWN_FILTER_TYPE => h("select", json("on" -> onProps("change")), sf.filter.definition.dropdownValues.map(dv => {
       val props = if(dv.`return`.toString == sf.filter.value.toString) {
-        js.Dynamic.literal("props" -> js.Dynamic.literal("selected" -> "selected", "value" -> (dv.`return`: js.Any)))
-      } else js.Dynamic.literal("props" -> js.Dynamic.literal("value" -> (dv.`return`: js.Any)))
+        json("props" -> json("selected" -> "selected", "value" -> (dv.`return`: js.Any)))
+      } else json("props" -> json("value" -> (dv.`return`: js.Any)))
       h("option", props, dv.display: js.Any)
     }))
     case _ => h("span", "Unknown filter type!": js.Any)

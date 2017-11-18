@@ -9,6 +9,7 @@ import org.scalajs
 import org.scalajs.dom.document
 
 import scala.scalajs.js
+import scala.scalajs.js.Dynamic.{literal => json}
 
 class StringReverse
   (change: SpecificPageMessage[String])
@@ -19,9 +20,9 @@ extends Component {
     def value: js.Any = document.getElementById(id).textContent
 
 
-    val spec: js.Object = js.Dynamic.literal("props" -> js.Dynamic.literal(
+    val spec: js.Object = json("props" -> json(
       "type" -> "text", "value" -> s
-    ), "on" -> js.Dynamic.literal("input" -> ((e: scalajs.dom.TextEvent) => {
+    ), "on" -> json("input" -> ((e: scalajs.dom.TextEvent) => {
       change(e.target.asInstanceOf[Target].value.toString)
     })))
 

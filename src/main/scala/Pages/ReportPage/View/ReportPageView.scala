@@ -12,6 +12,7 @@ import fr.hmil.roshttp.response.SimpleHttpResponse
 import monix.execution.Scheduler.Implicits.global
 
 import scala.scalajs.js
+import scala.scalajs.js.Dynamic.{literal => json}
 import scala.scalajs.js.{JSON, URIUtils}
 import scala.util.{Failure, Success}
 
@@ -41,12 +42,12 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
       }
       case AsyncSuccess(_: js.Array[ReportableEntity]) => {
         val entityDropdown = EntityDropdown(SetEntity(view)(model))(model)
-        val tdStyle = js.Dynamic.literal("style" -> js.Dynamic.literal(
+        val tdStyle = json("style" -> json(
           "verticalAlign" -> ("top": js.Any),
           "padding" -> "25px",
           "width" -> "50%"
         ))
-        val submitProps = js.Dynamic.literal("props" -> js.Dynamic.literal(
+        val submitProps = json("props" -> json(
           "href" -> URIUtils.encodeURI(
             "http://localhost:9000/report?baseEntityString=" +
             model.selectedEntity.get.entityName +
@@ -58,7 +59,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           ),
           "type" -> "button"
         ))
-        val fullWidth = js.Dynamic.literal("style" -> js.Dynamic.literal("width" -> "100%"))
+        val fullWidth = json("style" -> json("width" -> "100%"))
         h("div#whatever", js.Array(
           entityDropdown,
           h("br"),

@@ -6,19 +6,20 @@ import core.SnabbdomFacade.VNode
 import core.SnabbdomFacade.snabbdom.h
 
 import scala.scalajs.js
+import scala.scalajs.js.Dynamic.{literal => json}
 
 class Counter
   (increment: SpecificPageNoArgMessage, decrement: SpecificPageNoArgMessage)
   (count: Int)
 extends Component {
   lazy val vnode: VNode = {
-    val upSpec: js.Object = js.Dynamic.literal("props" -> scalajs.js.Dynamic.literal(
+    val upSpec: js.Object = json("props" -> json(
       "type" -> "button", "value" -> "+"
-    ), "on" -> scalajs.js.Dynamic.literal("click" -> increment))
+    ), "on" -> json("click" -> increment))
 
-    val downSpec: js.Object = js.Dynamic.literal("props" -> js.Dynamic.literal(
+    val downSpec: js.Object = json("props" -> json(
       "type" -> "button", "value" -> "-"
-    ), "on" -> js.Dynamic.literal("click" -> decrement))
+    ), "on" -> json("click" -> decrement))
 
     h("div.counter", js.Array(
       h("input.up", upSpec: js.Any),

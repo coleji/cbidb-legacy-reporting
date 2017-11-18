@@ -8,6 +8,7 @@ import core.SnabbdomFacade.VNode
 import core.SnabbdomFacade.snabbdom.h
 
 import scala.scalajs.js
+import scala.scalajs.js.Dynamic.{literal => json}
 import scala.scalajs.js.JSConverters._
 
 case class FiltersComponent (
@@ -19,17 +20,17 @@ case class FiltersComponent (
   addNestedCompositeFilter: SpecificPageMessage[Int]
 ) {
   val SPACING_PER_LEVEL: Int = 40
-  val colspan2: js.Object = js.Dynamic.literal("props" -> js.Dynamic.literal("colSpan" -> "3"))
+  val colspan2: js.Object = json("props" -> json("colSpan" -> "3"))
 
   def apply(model: ReportPageModel, level: Int, cf: CompositeFilter): VNode = {
-    val addSingleFilterProps = js.Dynamic.literal(
-      "on" -> js.Dynamic.literal("click" -> (() => addSingleFilter(cf))),
-      "props" -> js.Dynamic.literal("type" -> "button")
+    val addSingleFilterProps = json(
+      "on" -> json("click" -> (() => addSingleFilter(cf))),
+      "props" -> json("type" -> "button")
     )
-    val addNestedCompositeFilterProps = js.Dynamic.literal("on" -> js.Dynamic.literal("click" -> (() => {
+    val addNestedCompositeFilterProps = json("on" -> json("click" -> (() => {
       addNestedCompositeFilter(cf.hashCode())
     })))
-    val spacerProps: js.Object = js.Dynamic.literal("style" -> js.Dynamic.literal(
+    val spacerProps: js.Object = json("style" -> json(
       "width" -> ((SPACING_PER_LEVEL * level) + "px"),
       "textAlign" -> "right",
       "paddingRight" -> "5px"
@@ -66,25 +67,25 @@ case class FiltersComponent (
 
     val spacerChildren: js.Array[VNode] = {
       if (level > 0) {
-        val payload: js.Object = js.Dynamic.literal(
+        val payload: js.Object = json(
           "deleteType" -> DeleteFilter.DELETE_TYPE_COMPOSITE,
           "deleteHash" -> cf.hashCode()
         )
-        val props = js.Dynamic.literal(
-          "on" -> js.Dynamic.literal("click" -> (() => {
+        val props = json(
+          "on" -> json("click" -> (() => {
             deleteFilter(payload)
           })),
-          "props" -> js.Dynamic.literal("type" -> "button")
+          "props" -> json("type" -> "button")
         )
         js.Array(h("button.btn.btn-primary.btn-xs", props, "X": js.Any))
       } else js.Array()
     }
 
-    val borderRight = js.Dynamic.literal("style" -> js.Dynamic.literal("border-right" -> "1px solid #aaaaaa"))
-    val paddingLeft = js.Dynamic.literal("style" -> js.Dynamic.literal("paddingLeft" -> "5px"))
+    val borderRight = json("style" -> json("border-right" -> "1px solid #aaaaaa"))
+    val paddingLeft = json("style" -> json("paddingLeft" -> "5px"))
 
     h("table", h("tbody", h("tr", js.Array(
-      h("td", {if (level > 0) borderRight else js.Dynamic.literal()}, h("div.spacer", spacerProps, spacerChildren)),
+      h("td", {if (level > 0) borderRight else json()}, h("div.spacer", spacerProps, spacerChildren)),
       h("td", paddingLeft, h("table", h("tbody", filterNodes)))
     ))))
   }
