@@ -62,6 +62,7 @@ trait ReportableEntityNative extends js.Object {
 trait ReportFieldNative extends js.Object{
   val fieldName: String = js.native
   val fieldDisplayName: String = js.native
+  val isDefault: Boolean = js.native
 }
 
 @js.native

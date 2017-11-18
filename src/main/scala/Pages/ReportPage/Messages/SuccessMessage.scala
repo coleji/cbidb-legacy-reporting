@@ -10,12 +10,11 @@ import scala.scalajs.js
 object SuccessMessage extends Message[ReportPageModel, ReportableEntityResultWrapper] {
   def update: ReportPageModel => ReportableEntityResultWrapper => ReportPageModel =
     _ => wrapper => {
-      wrapper.data.runOptions
       val entitiesCast = wrapper.data.runOptions.asInstanceOf[js.Array[ReportableEntityNative]]
       val entities = entitiesCast.map(e => ReportableEntity(
         e.entityName,
         e.displayName,
-        e.fieldData.map(f => ReportField(f.fieldName, f.fieldDisplayName)),
+        e.fieldData.map(f => ReportField(f.fieldName, f.fieldDisplayName, f.isDefault)),
         e.filterData.map(f => ReportFilterDefinition(
           f.filterName,
           f.displayName,
@@ -25,17 +24,16 @@ object SuccessMessage extends Message[ReportPageModel, ReportableEntityResultWra
         ))
       ))
 
-      val apClassInstance: ReportableEntity = entities.filter(_.entityName == "ApClassInstance").head
-      val filterYear: ReportFilterDefinition = apClassInstance.filterData.filter(_.filterName == "ApClassInstanceFilterYear").head
-      val filterType: ReportFilterDefinition = apClassInstance.filterData.filter(_.filterName == "ApClassInstanceFilterType").head
+      val firstEntity: ReportableEntity = entities.head
+
+      println(firstEntity.fieldData.filter(_.isDefault).toSet)
+      println(firstEntity.fieldData.filter(_.isDefault).length)
 
       ReportPageModel(
         AsyncSuccess(entities),
-        Some(apClassInstance),
-        Some(new CompositeFilter(Comparator.AND, List(
-          new SingleFilter(ReportFilterValue(filterYear, "2017")),
-        ))),
-        Some(Set(apClassInstance.fieldData(2)))
+        Some(firstEntity),
+        Some(new CompositeFilter(Comparator.AND, List.empty)),
+        Some(firstEntity.fieldData.filter(_.isDefault).toSet)
       )
     }
 }
