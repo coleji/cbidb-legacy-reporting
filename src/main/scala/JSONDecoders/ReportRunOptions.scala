@@ -71,7 +71,7 @@ trait ReportFilterNative extends js.Object {
   val displayName: String = js.native
   val filterType: String = js.native
   val default: String = js.native
-  val values: js.Array[ReportFilterDropdownOptionsNative] = js.native
+  val values: js.Array[js.Array[ReportFilterDropdownOptionsNative]] = js.native
 }
 
 @js.native

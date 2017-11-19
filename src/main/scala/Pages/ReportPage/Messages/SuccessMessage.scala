@@ -20,7 +20,7 @@ object SuccessMessage extends Message[ReportPageModel, ReportableEntityResultWra
           f.displayName,
           FilterType(f.filterType),
           f.default,
-          f.values.map(v => ReportFilterDropdownValue(v.display, v.`return`))
+          f.values.map(d => d.map(v => ReportFilterDropdownValue(v.display, v.`return`)))
         ))
       ))
 

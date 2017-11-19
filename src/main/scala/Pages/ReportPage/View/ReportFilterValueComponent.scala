@@ -29,7 +29,7 @@ case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: Speci
       )
       h("input", props)
     }
-    case FilterType.DROPDOWN_FILTER_TYPE => h("select", json("on" -> onProps("change")), sf.filter.definition.dropdownValues.map(dv => {
+    case FilterType.DROPDOWN_FILTER_TYPE => h("select", json("on" -> onProps("change")), sf.filter.definition.dropdownValues.head.map(dv => {
       val props = if(dv.`return`.toString == sf.filter.value.toString) {
         json("props" -> json("selected" -> "selected", "value" -> (dv.`return`: js.Any)))
       } else json("props" -> json("value" -> (dv.`return`: js.Any)))

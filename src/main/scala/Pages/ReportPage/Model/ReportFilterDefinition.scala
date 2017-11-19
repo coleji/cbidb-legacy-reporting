@@ -8,5 +8,5 @@ case class ReportFilterDefinition(
   displayName: String,
   filterType: FilterType,
   default: String,
-  dropdownValues: js.Array[ReportFilterDropdownValue]
+  dropdownValues: js.Array[js.Array[ReportFilterDropdownValue]]
 )
