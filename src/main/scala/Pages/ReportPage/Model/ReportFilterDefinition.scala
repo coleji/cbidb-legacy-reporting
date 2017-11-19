@@ -6,7 +6,7 @@ import scala.scalajs.js
 case class ReportFilterDefinition(
   filterName: String,
   displayName: String,
-  filterType: FilterType,
+  filterType: js.Array[FilterType],
   default: String,
   dropdownValues: js.Array[js.Array[ReportFilterDropdownValue]]
 )

@@ -13,28 +13,33 @@ import scala.scalajs.js
 import scala.scalajs.js.Dynamic.{literal => json}
 
 case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: SpecificPageMessage[js.Object]) {
-  def onProps(eventType: String): js.Object = json(eventType -> ((e: scalajs.dom.TextEvent) => {
+  val tableId: String = "filterValue_" + sf.hashCode().toString
+  val cellPadding = json("style" -> json("padding" -> "3px 5px"))
+  def onProps(eventType: String, valueIndex: Int): js.Object = json(eventType -> ((e: scalajs.dom.TextEvent) => {
     val payload: UpdateFilterValueJSON = json(
       "sfHashCode" -> sf.hashCode().toString,
+      "valueIndex" -> valueIndex,
       "newValue" -> e.target.asInstanceOf[Target].value
     ).asInstanceOf[UpdateFilterValueJSON]
     updateFilterValue(payload)
   }))
 
-  def render: VNode = sf.filter.definition.filterType match {
+  private val filterTypes = sf.filter.definition.filterType
+
+  def render: VNode = h("table#" + tableId, h("tr", filterTypes.zip(0 to filterTypes.length).map(t => t._1 match {
     case FilterType.INT_FILTER_TYPE => {
       val props = json(
-        "props" -> json("type" -> "input", "value" -> sf.filter.value.toString, "size" -> "10"),
-        "on" -> onProps("input")
+        "props" -> json("type" -> "input", "value" -> sf.filter.value(t._2).toString, "size" -> "10"),
+        "on" -> onProps("input", t._2)
       )
-      h("input", props)
+      h("td", cellPadding, h("input", props))
     }
-    case FilterType.DROPDOWN_FILTER_TYPE => h("select", json("on" -> onProps("change")), sf.filter.definition.dropdownValues.head.map(dv => {
-      val props = if(dv.`return`.toString == sf.filter.value.toString) {
+    case FilterType.DROPDOWN_FILTER_TYPE => h("td", cellPadding, h("select", json("on" -> onProps("change", t._2)), sf.filter.definition.dropdownValues.head.map(dv => {
+      val props = if(dv.`return`.toString == sf.filter.value(t._2).toString) {
         json("props" -> json("selected" -> "selected", "value" -> (dv.`return`: js.Any)))
       } else json("props" -> json("value" -> (dv.`return`: js.Any)))
       h("option", props, dv.display: js.Any)
-    }))
-    case _ => h("span", "Unknown filter type!": js.Any)
-  }
+    })))
+    case _ => h("td", cellPadding, h("span", "Unknown filter type!": js.Any))
+  })))
 }

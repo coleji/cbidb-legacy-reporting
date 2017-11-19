@@ -51,6 +51,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
         ))
 
         val fullWidth = json("style" -> json("width" -> "100%"))
+        println(model.getSpecString)
         h("div#whatever", js.Array(
           entityDropdown,
           h("br"),

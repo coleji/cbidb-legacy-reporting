@@ -6,6 +6,7 @@ import Pages.ReportPage.Model._
 import core.{AsyncSuccess, Message}
 
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 
 object SuccessMessage extends Message[ReportPageModel, ReportableEntityResultWrapper] {
   def update: ReportPageModel => ReportableEntityResultWrapper => ReportPageModel =
@@ -18,7 +19,7 @@ object SuccessMessage extends Message[ReportPageModel, ReportableEntityResultWra
         e.filterData.map(f => ReportFilterDefinition(
           f.filterName,
           f.displayName,
-          FilterType(f.filterType),
+          f.filterType.split(",").toJSArray.map(FilterType(_)),
           f.default,
           f.values.map(d => d.map(v => ReportFilterDropdownValue(v.display, v.`return`)))
         ))

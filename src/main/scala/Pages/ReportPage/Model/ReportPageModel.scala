@@ -24,7 +24,7 @@ case class ReportPageModel(
 
   def getSpecString: String = {
     def printFilterExpression(fe: FilterExpression): String = fe match {
-      case sf: SingleFilter => sf.filter.definition.filterName + ":" + sf.filter.value
+      case sf: SingleFilter => sf.filter.definition.filterName + ":" + sf.filter.value.mkString(",")
       case cf: CompositeFilter => "(" + cf.filters.map(printFilterExpression).mkString(cf.comparator.getSymbol) + ")"
     }
     printFilterExpression(filters.get)
@@ -36,7 +36,7 @@ case class ReportPageModel(
       case sf: SingleFilter => {
         if (sf.hashCode().toString == hashCode) {
           val typeDef = findFilterTypeDefinition(value)
-          new SingleFilter(ReportFilterValue(typeDef.get, typeDef.get.default)).asInstanceOf[T]
+          new SingleFilter(ReportFilterValue(typeDef.get, typeDef.get.default.split(",").toList)).asInstanceOf[T]
         } else sf.asInstanceOf[T]
       }
       case cf: CompositeFilter => new CompositeFilter(cf.comparator, cf.filters.map(recurseThroughFilters)).asInstanceOf[T]
@@ -53,11 +53,16 @@ case class ReportPageModel(
     )
   }
 
-  def cloneAndUpdateValue(hashCode: String, value: String): ReportPageModel = {
+  def cloneAndUpdateValue(hashCode: String, valueIndex: Int, value: String): ReportPageModel = {
     def recurseThroughFilters[T <: FilterExpression](filter: T): T = filter match {
       case sf: SingleFilter => {
         if (sf.hashCode().toString == hashCode) {
-          new SingleFilter(ReportFilterValue(sf.filter.definition, value)).asInstanceOf[T]
+          val newValue = sf.filter.value.zip(0 to sf.filter.value.length).map(t => {
+            val newVal = if (t._2 == valueIndex) value else t._1
+            println("'" + newVal + "' " + newVal.length)
+            newVal
+          })
+          new SingleFilter(ReportFilterValue(sf.filter.definition, newValue)).asInstanceOf[T]
         } else sf.asInstanceOf[T]
       }
       case cf: CompositeFilter => new CompositeFilter(cf.comparator, cf.filters.map(recurseThroughFilters)).asInstanceOf[T]
@@ -81,7 +86,7 @@ case class ReportPageModel(
         if (cf.hashCode() == hashCode) {
           val defaultFilterDef = selectedEntity.get.filterData.head
           val defaultFilterValue = defaultFilterDef.default
-          val newFilters: List[FilterExpression] = cf.filters ++ List(new SingleFilter(ReportFilterValue(defaultFilterDef, defaultFilterValue)))
+          val newFilters: List[FilterExpression] = cf.filters ++ List(new SingleFilter(ReportFilterValue(defaultFilterDef, defaultFilterValue.split(",").toList)))
 
           new CompositeFilter(cf.comparator, newFilters).asInstanceOf[T]
         } else {
@@ -112,7 +117,7 @@ case class ReportPageModel(
             val newComparator = cf.comparator.getOtherOne
             new CompositeFilter(
               newComparator,
-              List(new SingleFilter(ReportFilterValue(defaultFilterDef, defaultFilterValue)))
+              List(new SingleFilter(ReportFilterValue(defaultFilterDef, defaultFilterValue.split(",").toList)))
             )
           })
           new CompositeFilter(cf.comparator, newFilters).asInstanceOf[T]
