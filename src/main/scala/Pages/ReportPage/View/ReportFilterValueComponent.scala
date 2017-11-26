@@ -3,7 +3,7 @@ package Pages.ReportPage.View
 import Pages.ReportPage.Messages.UpdateFilterValue.UpdateFilterValueJSON
 import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.FilterType
-import core.Main.Target
+import core.Main.{Globals, Target}
 import core.Message.SpecificPageMessage
 import core.SnabbdomFacade.VNode
 import core.SnabbdomFacade.snabbdom.h
@@ -25,13 +25,18 @@ case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: Speci
   }))
 
   private val filterTypes = sf.filter.definition.filterType
+  Globals.testThing = filterTypes
+  println("#$#$#$")
+  Globals.testFn()
 
   def render: VNode = h("table#" + tableId, h("tr", filterTypes.zip(0 to filterTypes.length).map(t => t._1 match {
-    case FilterType.INT_FILTER_TYPE => {
+    case FilterType.INT_FILTER_TYPE | FilterType.DOUBLE_FILTER_TYPE | FilterType.DATE_FILTER_TYPE => {
+      println("A")
       val props = json(
         "props" -> json("type" -> "input", "value" -> sf.filter.value(t._2).toString, "size" -> "10"),
         "on" -> onProps("input", t._2)
       )
+      println("B")
       h("td", cellPadding, h("input", props))
     }
     case FilterType.DROPDOWN_FILTER_TYPE => h("td", cellPadding, h("select", json("on" -> onProps("change", t._2)), sf.filter.definition.dropdownValues.head.map(dv => {

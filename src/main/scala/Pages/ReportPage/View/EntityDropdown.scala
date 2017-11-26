@@ -23,7 +23,7 @@ case class EntityDropdown(
       "props" -> json("value" -> dropdownNull)
     )
     h("div", js.Array(
-      h("span", "One row per...  ": js.Any),
+      h("span", "@One row per...  ": js.Any),
       h("select#entity", selectSpec, js.Array({
         h("option", defaultSpec, "- Select -": js.Any)
       }) concat entities.map(e => {
