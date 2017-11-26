@@ -21,7 +21,7 @@ case class SingleFilterComponent(
 ) {
   def apply(model: ReportPageModel)(sf: SingleFilter): VNode = {
     val props = json(
-      "props" -> json("id" -> ("sf_" + sf.hashCode().toString)),
+  //    "props" -> json("id" -> ("sf_" + sf.hashCode().toString)),
       "on" -> json("click" -> (() => {searchModelForHashCode(sf.hashCode())}))
     )
 

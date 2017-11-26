@@ -13,7 +13,7 @@ import scala.scalajs.js
 import scala.scalajs.js.Dynamic.{literal => json}
 
 case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: SpecificPageMessage[js.Object]) {
-  val tableId: String = "filterValue_" + sf.hashCode().toString
+  //val tableId: String = "filterValue_" + sf.hashCode().toString
   val cellPadding = json("style" -> json("padding" -> "3px 5px"))
   def onProps(eventType: String, valueIndex: Int): js.Object = json(eventType -> ((e: scalajs.dom.TextEvent) => {
     val payload: UpdateFilterValueJSON = json(
@@ -25,18 +25,13 @@ case class ReportFilterValueComponent(sf: SingleFilter, updateFilterValue: Speci
   }))
 
   private val filterTypes = sf.filter.definition.filterType
-  Globals.testThing = filterTypes
-  println("#$#$#$")
-  Globals.testFn()
 
-  def render: VNode = h("table#" + tableId, h("tr", filterTypes.zip(0 to filterTypes.length).map(t => t._1 match {
+  def render: VNode = h("table", h("tr", filterTypes.zip(0 to filterTypes.length).map(t => t._1 match {
     case FilterType.INT_FILTER_TYPE | FilterType.DOUBLE_FILTER_TYPE | FilterType.DATE_FILTER_TYPE => {
-      println("A")
       val props = json(
         "props" -> json("type" -> "input", "value" -> sf.filter.value(t._2).toString, "size" -> "10"),
         "on" -> onProps("input", t._2)
       )
-      println("B")
       h("td", cellPadding, h("input", props))
     }
     case FilterType.DROPDOWN_FILTER_TYPE => h("td", cellPadding, h("select", json("on" -> onProps("change", t._2)), sf.filter.definition.dropdownValues.head.map(dv => {

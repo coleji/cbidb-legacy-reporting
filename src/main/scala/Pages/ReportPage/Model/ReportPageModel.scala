@@ -59,7 +59,6 @@ case class ReportPageModel(
         if (sf.hashCode().toString == hashCode) {
           val newValue = sf.filter.value.zip(0 to sf.filter.value.length).map(t => {
             val newVal = if (t._2 == valueIndex) value else t._1
-            println("'" + newVal + "' " + newVal.length)
             newVal
           })
           new SingleFilter(ReportFilterValue(sf.filter.definition, newValue)).asInstanceOf[T]
@@ -165,7 +164,6 @@ case class ReportPageModel(
 
   def cloneAndSetFilters(fieldIDs: js.Array[js.Any]): ReportPageModel = {
     val fieldIDSet = fieldIDs.toSet
-    println(selectedEntity.get.fieldData.filter(f => fieldIDSet contains f.fieldName).toSet)
     ReportPageModel(
       options,
       selectedEntity,
