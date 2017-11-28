@@ -24,7 +24,7 @@ case class FieldsComponent(
         updateFields(selectedOptions)
       }))
     )
-    h("select#fields_" + model.hashCode().toString, selectProps, model.selectedEntity.get.fieldData.map(rf => {
+    h("select", selectProps, model.selectedEntity.get.fieldData.map(rf => {
       val props = {
         if (model.fields.get.contains(rf)) {
           json("props" -> json(
