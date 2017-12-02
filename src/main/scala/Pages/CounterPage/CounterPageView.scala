@@ -2,7 +2,7 @@ package Pages.CounterPage
 
 import Components.Counter
 import VNode.SnabbdomFacade.VNode
-import _root_.VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.div
 import core.Message.SpecificPageNoArgMessage
 import core.{NoArgMessage, View}
 
@@ -44,7 +44,7 @@ class CounterPageView(render: VNode => Unit) extends View[CounterPageModel](rend
       new Counter(increment, decrement)(model.secondCount)
     }
 
-    h("div#page", js.Array(
+    div(id = "page", contents = js.Array(
       firstCounter.vnode,
       secondCounter.vnode
     ))

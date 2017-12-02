@@ -1,5 +1,6 @@
 package core
 
+import Pages.CounterPage.CounterPage
 import Pages.ReportPage.ReportPage
 import VNode.SnabbdomFacade.snabbdom.h
 import VNode.SnabbdomFacade.{VNode, patch, toVNode}
@@ -37,10 +38,10 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     val render = (view: VNode) => updateRootElement(h("div#root", view))
-    ReportPage(render).renderPage()
+    //ReportPage(render).renderPage()
     //UsersPage(render).renderPage()
     //AsyncPage(render).renderPage()
     //StringReversePage(render).renderPage()
-    //CounterPage(render).renderPage()
+    CounterPage(render).renderPage()
   }
 }

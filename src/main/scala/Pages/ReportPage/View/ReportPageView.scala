@@ -7,7 +7,6 @@ import Pages.ReportPage.Model.FilterState.CompositeFilter
 import Pages.ReportPage.Model._
 import VNode.SnabbdomFacade.VNode
 import _root_.VNode._
-import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core._
 import fr.hmil.roshttp.HttpRequest
 import fr.hmil.roshttp.response.SimpleHttpResponse
@@ -53,7 +52,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           entityDropdown,
           table(style = fullWidth, contents = tbody(tr(js.Array(
             td(style = tdStyle, contents = model.filters match {
-              case None => h("span", "no filters": js.Any)
+              case None => span("no filters")
               case Some(cf: CompositeFilter) => FiltersComponent(
                 SearchModelForHash(view)(model),
                 UpdateFilterValue(view)(model),
