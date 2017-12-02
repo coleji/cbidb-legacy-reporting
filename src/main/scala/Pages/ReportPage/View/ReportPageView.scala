@@ -68,7 +68,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
             )
           )))),
           br(),
-          form(props = Map("method" -> "get", "action" -> "http://localhost:9000/report"), contents = js.Array(
+          form(props = Map("method" -> "post", "action" -> "http://localhost:9000/report"), contents = js.Array(
             HiddenInput("baseEntityString", model.selectedEntity.get.entityName),
             HiddenInput("filterSpec", model.getSpecString),
             HiddenInput("fieldSpec", model.fields.get.map(f => f.fieldName).mkString(",")),
