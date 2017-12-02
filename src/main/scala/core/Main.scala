@@ -22,7 +22,7 @@ object Main {
     var testFn: js.Function0[Any] = js.native
     object window extends js.Object {
       object location extends js.Object {
-        def pathname: js.Any = js.native
+        def pathname: String = js.native
       }
     }
   }
@@ -36,8 +36,9 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    val render = (view: VNode) => updateRootElement(div(id = "root", contents = view))
-    ReportPage(render).renderPage()
+    println("starting on path " + Globals.window.location.pathname)
+    Router.render.set((view: VNode) => updateRootElement(div(id = "root", contents = view)))
+    Router.route(Globals.window.location.pathname).renderPage()
     //UsersPage(render).renderPage()
     //AsyncPage(render).renderPage()
     //StringReversePage(render).renderPage()
