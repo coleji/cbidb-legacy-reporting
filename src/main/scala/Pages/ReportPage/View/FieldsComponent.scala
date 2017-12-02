@@ -22,8 +22,6 @@ case class FieldsComponent(
       ),
       events = Map("change" -> ((e: scalajs.dom.TextEvent) => {
         val selectedOptions: js.Array[js.Any] = e.target.asInstanceOf[Target].selectedOptions.map(_.value)
-        Globals.testThing = selectedOptions
-        Globals.testFn()
         updateFields(selectedOptions)
       })),
       contents = model.selectedEntity.get.fieldData.map(rf => {

@@ -6,6 +6,7 @@ import Pages.ReportPage.Messages._
 import Pages.ReportPage.Model.FilterState.CompositeFilter
 import Pages.ReportPage.Model._
 import VNode.SnabbdomFacade.VNode
+import _root_.VNode._
 import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core._
 import fr.hmil.roshttp.HttpRequest
@@ -34,27 +35,24 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           case e: Failure[SimpleHttpResponse] => println("Async call failed")
         })
         MarkInitialized(view)(model)()
-        h("div#page", "uninitialized!": js.Any)
+        div(id = "page", contents = "uninitialized!")
       }
       case Waiting => {
-        h("div#page1", js.Array(
-          h("span#yo", "waiting!": js.Any)
-        ))
+        div(id = "page", contents = span("waiting!"))
       }
       case AsyncSuccess(_: js.Array[ReportableEntity]) => {
-        val entityDropdown = EntityDropdown(SetEntity(view)(model))(model)
-        val tdStyle = json("style" -> json(
-          "verticalAlign" -> ("top": js.Any),
+        val entityDropdown: VNode = EntityDropdown(SetEntity(view)(model))(model)
+        val tdStyle = Map(
+          "verticalAlign" -> "top",
           "padding" -> "25px",
           "width" -> "50%"
-        ))
+        )
 
-        val fullWidth = json("style" -> json("width" -> "100%"))
-        println(model.getSpecString)
-        h("div#whatever", js.Array(
+        val fullWidth = Map("width" -> "100%")
+        div(id = "whatever", contents = js.Array(
           entityDropdown,
-          h("table", fullWidth, h("tbody", h("tr", js.Array(
-            h("td", tdStyle, model.filters match {
+          table(style = fullWidth, contents = tbody(tr(js.Array(
+            td(style = tdStyle, contents = model.filters match {
               case None => h("span", "no filters": js.Any)
               case Some(cf: CompositeFilter) => FiltersComponent(
                 SearchModelForHash(view)(model),
@@ -65,15 +63,22 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
                 AddNestedCompositeFilter(view)(model)
               )(model, 0, cf)
             }),
-            h("td", tdStyle, FieldsComponent(UpdateFields(view)(model))(model))
+            td(
+              style = tdStyle,
+              contents = FieldsComponent(UpdateFields(view)(model))(model)
+            )
           )))),
-          h("br"),
-          h("form", {json("props" -> json("method" -> "get", "action" -> "http://localhost:9000/report"))}, js.Array(
+          br(),
+          form(props = Map("method" -> "get", "action" -> "http://localhost:9000/report"), contents = js.Array(
             HiddenInput("baseEntityString", model.selectedEntity.get.entityName),
             HiddenInput("filterSpec", model.getSpecString),
             HiddenInput("fieldSpec", model.fields.get.map(f => f.fieldName).mkString(",")),
             HiddenInput("outputType", "tsv"),
-            h("button.btn.btn-primary", json("props" -> json("type" -> "submit")), "Run Report": js.Any)
+            button(
+              classes = List("btn", "btn-primary"),
+              props = Map("type" -> "submit"),
+              contents = "Run Report"
+            )
           ))
         ))
       }
