@@ -25,6 +25,9 @@ object Main {
         def pathname: String = js.native
       }
     }
+    object history extends js.Object {
+      def pushState(state: js.Object, title: String, path: String): Unit = js.native
+    }
   }
 
   val dropdownNull: String = "%null%"

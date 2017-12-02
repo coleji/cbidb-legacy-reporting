@@ -7,6 +7,9 @@ import Pages.ReportPage.ReportPage
 import Pages.StringReversePage.StringReversePage
 import Pages.UsersPage.UsersPage
 import VNode.SnabbdomFacade.VNode
+import core.Main.Globals
+
+import scala.scalajs.js
 
 object Router {
   val render = new Initializable[VNode => Unit]
@@ -17,5 +20,11 @@ object Router {
     case "/async" => AsyncPage(render.get)
     case "/users" => UsersPage(render.get)
     case _ => ReportPage(render.get)
+  }
+
+  def transition(path: String): Unit = {
+    val emptyObj: js.Object = js.Dynamic.literal()
+    Globals.history.pushState(emptyObj, "", path)
+    route(path).renderPage()
   }
 }

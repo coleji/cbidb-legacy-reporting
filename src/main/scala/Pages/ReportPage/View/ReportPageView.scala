@@ -47,6 +47,9 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           "width" -> "50%"
         )
 
+        println("dfgdfgdfgdfgdfgdfg")
+
+
         val fullWidth = Map("width" -> "100%")
         div(id = "whatever", contents = js.Array(
           entityDropdown,
@@ -78,7 +81,14 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
               props = Map("type" -> "submit"),
               contents = "Run Report"
             )
-          ))
+          )),
+          span(
+            events = Map("click" -> (() => {
+              println("here we go!")
+              Router.transition("/counter")
+            })),
+            contents = "Go To Counter"
+          )
         ))
       }
     }
