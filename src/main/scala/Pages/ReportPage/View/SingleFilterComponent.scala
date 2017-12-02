@@ -5,6 +5,7 @@ import Pages.ReportPage.Messages.UpdateFilterType.UpdateFilterTypeJSON
 import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.ReportPageModel
 import VNode.SnabbdomFacade.VNode
+import _root_.VNode._
 import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core.Main.Target
 import core.Message.SpecificPageMessage
@@ -20,50 +21,47 @@ case class SingleFilterComponent(
   deleteFilter: SpecificPageMessage[js.Object]
 ) {
   def apply(model: ReportPageModel)(sf: SingleFilter): VNode = {
-    val cellPadding = json("style" -> json("padding" -> "3px 5px"))
+    val cellPadding = Map("padding" -> "3px 5px")
 
-    val delete = json(
-      "on" -> json("click" -> (() => {
-        val payload: js.Object = json(
-          "deleteType" -> DeleteFilter.DELETE_TYPE_SINGLE,
-          "deleteHash" -> sf.hashCode()
+    tr(js.Array(
+      td(
+        style = cellPadding,
+        contents = select(
+          events = Map("change" -> ((e: scalajs.dom.TextEvent) => {
+            val payload: UpdateFilterTypeJSON = json(
+              "sfHashCode" -> sf.hashCode().toString,
+              "newValue" -> e.target.asInstanceOf[Target].value
+            ).asInstanceOf[UpdateFilterTypeJSON]
+            updateFilterType(payload)
+          })),
+          contents = model.selectedEntity.get.filterData.map(f => {
+            option(
+              props = {
+                Map("value" -> f.filterName) ++ {
+                  if (sf.filter.definition.filterName == f.filterName) Map("selected" -> "selected")
+                  else Map.empty
+                }
+              },
+              contents = f.displayName
+            )
+          })
         )
-        deleteFilter(payload)
-      })),
-      "style" -> json("cursor" -> "pointer")
-    )
-
-    val typeSelectProps = json("on" -> json("change" -> ((e: scalajs.dom.TextEvent) => {
-      val payload: UpdateFilterTypeJSON = json(
-        "sfHashCode" -> sf.hashCode().toString,
-        "newValue" -> e.target.asInstanceOf[Target].value
-      ).asInstanceOf[UpdateFilterTypeJSON]
-      updateFilterType(payload)
-    })))
-
-    val imgProps = json(
-      "props" -> json("src" -> "/images/trashcan.svg"),
-      "style" -> json("width" -> "25px")
-    )
-
-    h("tr", js.Array(
-      h("td", cellPadding,
-        h("select", typeSelectProps, model.selectedEntity.get.filterData.map(f => {
-          val props = if(sf.filter.definition.filterName == f.filterName) {
-            json("props" -> json(
-              "selected" -> "selected",
-              "value" -> f.filterName
-            ))
-          } else {
-            json("props" -> json(
-              "value" -> f.filterName
-            ))
-          }
-          h("option", props, f.displayName: js.Any)
-        }))
       ),
-      h("td", cellPadding, ReportFilterValueComponent(sf, updateFilterValue).render),
-      h("td", cellPadding, h("span", delete, h("img", imgProps)))
+      td(style = cellPadding, contents = ReportFilterValueComponent(sf, updateFilterValue).render),
+      td(style = cellPadding, contents = span(
+        style = Map("cursor" -> "pointer"),
+        events = Map("click" -> (() => {
+          val payload: js.Object = json(
+            "deleteType" -> DeleteFilter.DELETE_TYPE_SINGLE,
+            "deleteHash" -> sf.hashCode()
+          )
+          deleteFilter(payload)
+        })),
+        contents = img(
+          props = Map("src" -> "/images/trashcan.svg"),
+          style = Map("width" -> "25px")
+        )
+      ))
     ))
   }
 }
