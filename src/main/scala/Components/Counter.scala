@@ -1,9 +1,9 @@
 package Components
 
+import VNode.SnabbdomFacade.VNode
+import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core.Component
 import core.Message.SpecificPageNoArgMessage
-import VNode.SnabbdomFacade.VNode
-import VNode.SnabbdomFacade.snabbdom.h
 
 import scala.scalajs.js
 import scala.scalajs.js.Dynamic.{literal => json}

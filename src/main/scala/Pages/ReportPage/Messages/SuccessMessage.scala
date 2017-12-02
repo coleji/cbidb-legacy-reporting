@@ -1,7 +1,7 @@
 package Pages.ReportPage.Messages
 
 import JSONDecoders.{ReportableEntityNative, ReportableEntityResultWrapper}
-import Pages.ReportPage.Model.FilterState.{Comparator, CompositeFilter, SingleFilter}
+import Pages.ReportPage.Model.FilterState.{Comparator, CompositeFilter}
 import Pages.ReportPage.Model._
 import core.{AsyncSuccess, Message}
 

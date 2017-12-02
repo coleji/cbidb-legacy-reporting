@@ -2,7 +2,6 @@ package VNode
 
 import VNode.SnabbdomFacade.VNode
 import _root_.VNode.SnabbdomFacade.snabbdom.h
-import core.Main.Globals
 
 import scala.scalajs.js
 
@@ -14,7 +13,7 @@ sealed abstract class VNodeConstructor(tag: String) {
     props: Map[String, String] = Map.empty,
     style: Map[String, String] = Map.empty,
     events: Map[String, js.Any] = Map.empty,
-    contents: T = js.Array()
+    contents: T = null
   )(implicit tc: VNodeContents[T]): VNode = {
     // E.g. tag#id.class1.class2.class3
     val firstArg = List(

@@ -3,10 +3,10 @@ package Pages.ReportPage.View
 import Pages.ReportPage.Messages.UpdateFilterValue.UpdateFilterValueJSON
 import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.FilterType
-import core.Main.{Globals, Target}
-import core.Message.SpecificPageMessage
 import VNode.SnabbdomFacade.VNode
-import VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.SnabbdomFacade.snabbdom.h
+import core.Main.Target
+import core.Message.SpecificPageMessage
 import org.scalajs
 
 import scala.scalajs.js

@@ -4,10 +4,10 @@ import Pages.ReportPage.Messages.DeleteFilter
 import Pages.ReportPage.Messages.UpdateFilterType.UpdateFilterTypeJSON
 import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.ReportPageModel
+import VNode.SnabbdomFacade.VNode
+import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core.Main.Target
 import core.Message.SpecificPageMessage
-import VNode.SnabbdomFacade.VNode
-import VNode.SnabbdomFacade.snabbdom.h
 import org.scalajs
 
 import scala.scalajs.js

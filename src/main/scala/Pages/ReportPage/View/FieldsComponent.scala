@@ -1,11 +1,10 @@
 package Pages.ReportPage.View
 
 import Pages.ReportPage.Model.ReportPageModel
-import core.Main.{Globals, Target}
-import core.Message.SpecificPageMessage
 import VNode.SnabbdomFacade.VNode
 import _root_.VNode.{option, select}
-import _root_.VNode.SnabbdomFacade.snabbdom.h
+import core.Main.{Globals, Target}
+import core.Message.SpecificPageMessage
 import org.scalajs
 
 import scala.scalajs.js

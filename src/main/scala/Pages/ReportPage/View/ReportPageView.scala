@@ -6,16 +6,15 @@ import Pages.ReportPage.Messages._
 import Pages.ReportPage.Model.FilterState.CompositeFilter
 import Pages.ReportPage.Model._
 import VNode.SnabbdomFacade.VNode
-import VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core._
 import fr.hmil.roshttp.HttpRequest
 import fr.hmil.roshttp.response.SimpleHttpResponse
 import monix.execution.Scheduler.Implicits.global
-import org.scalajs.dom.document
 
 import scala.scalajs.js
 import scala.scalajs.js.Dynamic.{literal => json}
-import scala.scalajs.js.{JSON, URIUtils}
+import scala.scalajs.js.JSON
 import scala.util.{Failure, Success}
 
 class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render) {
@@ -54,7 +53,6 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
         println(model.getSpecString)
         h("div#whatever", js.Array(
           entityDropdown,
-          h("br"),
           h("table", fullWidth, h("tbody", h("tr", js.Array(
             h("td", tdStyle, model.filters match {
               case None => h("span", "no filters": js.Any)

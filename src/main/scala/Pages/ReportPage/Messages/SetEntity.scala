@@ -1,7 +1,7 @@
 package Pages.ReportPage.Messages
 
-import Pages.ReportPage.Model.FilterState.{Comparator, CompositeFilter, SingleFilter}
-import Pages.ReportPage.Model.{ReportFilterDefinition, ReportFilterValue, ReportPageModel, ReportableEntity}
+import Pages.ReportPage.Model.FilterState.{Comparator, CompositeFilter}
+import Pages.ReportPage.Model.{ReportPageModel, ReportableEntity}
 import core.Main.dropdownNull
 import core.Message
 

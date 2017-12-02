@@ -1,9 +1,9 @@
 package Pages.CounterPage
 
 import Components.Counter
-import core.Message.SpecificPageNoArgMessage
 import VNode.SnabbdomFacade.VNode
-import VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.SnabbdomFacade.snabbdom.h
+import core.Message.SpecificPageNoArgMessage
 import core.{NoArgMessage, View}
 
 import scala.scalajs.js
