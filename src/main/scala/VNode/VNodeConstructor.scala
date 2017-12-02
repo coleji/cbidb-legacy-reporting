@@ -1,7 +1,8 @@
-package Util
+package VNode
 
-import core.SnabbdomFacade.VNode
-import core.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.VNode
+import _root_.VNode.SnabbdomFacade.snabbdom.h
+import core.Main.Globals
 
 import scala.scalajs.js
 
@@ -12,7 +13,7 @@ sealed abstract class VNodeConstructor(tag: String) {
     props: Map[String, String] = Map.empty,
     style: Map[String, String] = Map.empty,
     events: Map[String, js.Any] = Map.empty,
-    contents: VNodeContents[_] = Children(js.Array())
+    contents: Contents = Contents(js.Array())
   ): VNode = {
     // E.g. tag#id.class1.class2.class3
     val firstArg = List(
@@ -21,17 +22,23 @@ sealed abstract class VNodeConstructor(tag: String) {
       classes.map("." + _).mkString("")
     ).mkString("")
 
-    val propsObject: js.Object = js.Object(props)
-    val styleObject: js.Object = js.Object(style)
-    val eventsObject: js.Object = js.Object(events)
-
     val unifiedProps: js.Object = js.Dynamic.literal(
-      "props" -> propsObject,
-      "style" -> styleObject,
-      "events" -> eventsObject
+      "props" -> VNodeConstructor.MapToJsDictionary(props),
+      "style" -> VNodeConstructor.MapToJsDictionary(style),
+      "on" -> VNodeConstructor.MapToJsDictionary(events)
     )
 
     h(firstArg, unifiedProps, contents.toJs)
+  }
+}
+
+object VNodeConstructor {
+  def MapToJsDictionary(map: Map[String, _]): js.Object = {
+    val result = js.Dictionary.empty[Any]
+    for (pair <- map) {
+      result(pair._1) = pair._2.asInstanceOf[js.Any]
+    }
+    result.asInstanceOf[js.Object]
   }
 }
 

@@ -1,6 +1,6 @@
 package core
 
-import core.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.VNode
 
 abstract class Component {
   val vnode: VNode

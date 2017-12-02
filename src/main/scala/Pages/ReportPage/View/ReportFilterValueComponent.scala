@@ -5,8 +5,8 @@ import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.FilterType
 import core.Main.{Globals, Target}
 import core.Message.SpecificPageMessage
-import core.SnabbdomFacade.VNode
-import core.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.snabbdom.h
 import org.scalajs
 
 import scala.scalajs.js

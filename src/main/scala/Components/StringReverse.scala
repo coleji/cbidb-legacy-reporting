@@ -3,8 +3,8 @@ package Components
 import core.Component
 import core.Main.Target
 import core.Message.SpecificPageMessage
-import core.SnabbdomFacade.VNode
-import core.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.snabbdom.h
 import org.scalajs
 import org.scalajs.dom.document
 

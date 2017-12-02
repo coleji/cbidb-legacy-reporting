@@ -1,6 +1,6 @@
 package Pages.UsersPage
 
-import core.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.VNode
 import core.{Page, Uninitialized}
 
 case class UsersPage(render: (VNode => Unit)) extends Page[UsersPageModel](render) {

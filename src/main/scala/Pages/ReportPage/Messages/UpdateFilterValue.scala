@@ -2,7 +2,7 @@ package Pages.ReportPage.Messages
 
 import Pages.ReportPage.Model.ReportPageModel
 import core.Message
-import core.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.VNode
 import org.scalajs.dom
 import org.scalajs.dom.Element
 

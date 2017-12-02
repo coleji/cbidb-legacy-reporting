@@ -1,7 +1,7 @@
 package Pages.StringReversePage
 
 import core.Page
-import core.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.VNode
 
 case class StringReversePage(render: (VNode => Unit)) extends Page[StringReversePageModel](render) {
   val defaultModel: StringReversePageModel = StringReversePageModel("", "")

@@ -1,6 +1,6 @@
 package Pages.AsyncPage
 
-import core.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.VNode
 import core.{Page, Uninitialized}
 
 case class AsyncPage(render: (VNode => Unit)) extends Page[AsyncPageModel](render) {

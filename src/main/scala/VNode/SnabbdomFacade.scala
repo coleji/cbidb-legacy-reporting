@@ -1,4 +1,4 @@
-package core
+package VNode
 
 import org.scalajs.dom.{Element, Text}
 

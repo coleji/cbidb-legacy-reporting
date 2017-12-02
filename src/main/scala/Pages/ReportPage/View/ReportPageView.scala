@@ -5,8 +5,8 @@ import JSONDecoders._
 import Pages.ReportPage.Messages._
 import Pages.ReportPage.Model.FilterState.CompositeFilter
 import Pages.ReportPage.Model._
-import core.SnabbdomFacade.VNode
-import core.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.snabbdom.h
 import core._
 import fr.hmil.roshttp.HttpRequest
 import fr.hmil.roshttp.response.SimpleHttpResponse

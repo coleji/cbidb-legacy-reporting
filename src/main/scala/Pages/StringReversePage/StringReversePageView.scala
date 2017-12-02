@@ -2,8 +2,8 @@ package Pages.StringReversePage
 
 import Components.StringReverse
 import core.Message.SpecificPageMessage
-import core.SnabbdomFacade.VNode
-import core.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.snabbdom.h
 import core.{Message, View}
 
 import scala.scalajs.js

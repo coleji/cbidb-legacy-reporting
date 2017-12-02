@@ -1,8 +1,8 @@
 package core
 
 import Pages.ReportPage.ReportPage
-import core.SnabbdomFacade.snabbdom.h
-import core.SnabbdomFacade.{VNode, patch, toVNode}
+import VNode.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.{VNode, patch, toVNode}
 import org.scalajs.dom.document
 
 import scala.scalajs.js

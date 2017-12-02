@@ -4,8 +4,8 @@ import Pages.ReportPage.Messages.DeleteFilter
 import Pages.ReportPage.Model.FilterState.{CompositeFilter, SingleFilter}
 import Pages.ReportPage.Model.ReportPageModel
 import core.Message.SpecificPageMessage
-import core.SnabbdomFacade.VNode
-import core.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.snabbdom.h
 
 import scala.scalajs.js
 import scala.scalajs.js.Dynamic.{literal => json}

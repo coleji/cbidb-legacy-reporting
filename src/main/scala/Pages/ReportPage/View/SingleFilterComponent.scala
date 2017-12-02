@@ -6,8 +6,8 @@ import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.ReportPageModel
 import core.Main.Target
 import core.Message.SpecificPageMessage
-import core.SnabbdomFacade.VNode
-import core.SnabbdomFacade.snabbdom.h
+import VNode.SnabbdomFacade.VNode
+import VNode.SnabbdomFacade.snabbdom.h
 import org.scalajs
 
 import scala.scalajs.js
@@ -20,11 +20,6 @@ case class SingleFilterComponent(
   deleteFilter: SpecificPageMessage[js.Object]
 ) {
   def apply(model: ReportPageModel)(sf: SingleFilter): VNode = {
-    val props = json(
-  //    "props" -> json("id" -> ("sf_" + sf.hashCode().toString)),
-      "on" -> json("click" -> (() => {searchModelForHashCode(sf.hashCode())}))
-    )
-
     val cellPadding = json("style" -> json("padding" -> "3px 5px"))
 
     val delete = json(
