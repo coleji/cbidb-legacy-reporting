@@ -3,7 +3,7 @@ package Pages.ReportPage.View
 import Pages.ReportPage.Model.ReportPageModel
 import VNode.SnabbdomFacade.VNode
 import _root_.VNode.{option, select}
-import core.Main.{Globals, Target}
+import core.Main.Target
 import core.Message.SpecificPageMessage
 import org.scalajs
 

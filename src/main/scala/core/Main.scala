@@ -1,9 +1,8 @@
 package core
 
-import Pages.CounterPage.CounterPage
 import Pages.ReportPage.ReportPage
-import VNode.SnabbdomFacade.snabbdom.h
 import VNode.SnabbdomFacade.{VNode, patch, toVNode}
+import _root_.VNode.div
 import org.scalajs.dom.document
 
 import scala.scalajs.js
@@ -37,11 +36,11 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    val render = (view: VNode) => updateRootElement(h("div#root", view))
-    //ReportPage(render).renderPage()
+    val render = (view: VNode) => updateRootElement(div(id = "root", contents = view))
+    ReportPage(render).renderPage()
     //UsersPage(render).renderPage()
     //AsyncPage(render).renderPage()
     //StringReversePage(render).renderPage()
-    CounterPage(render).renderPage()
+    //CounterPage(render).renderPage()
   }
 }

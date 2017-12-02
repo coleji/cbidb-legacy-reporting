@@ -5,7 +5,6 @@ import Pages.ReportPage.Model.FilterState.SingleFilter
 import Pages.ReportPage.Model.FilterType
 import VNode.SnabbdomFacade.VNode
 import _root_.VNode._
-import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core.Main.Target
 import core.Message.SpecificPageMessage
 import org.scalajs

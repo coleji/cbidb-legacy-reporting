@@ -1,7 +1,7 @@
 package Pages.UsersPage
 
 import VNode.SnabbdomFacade.VNode
-import _root_.VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode._
 import core.ApiEndpointFacade.User
 import core._
 import fr.hmil.roshttp.HttpRequest
@@ -40,32 +40,34 @@ class UsersPageView (render: VNode => Unit) extends View[UsersPageModel](render)
           case e: Failure[SimpleHttpResponse] => println("Async call failed")
         })
         MarkInitialized(view)(model)
-        h("div#page", "uninitialized!": js.Any)
+        div(id = "page", contents = "uninitialized!")
       }
       case Waiting => {
-        h("div#page", js.Array(
-          h("span#yo", "waiting!": js.Any)
-        ))
+        div(id = "page", contents = "waiting!")
       }
       case AsyncSuccess(users: js.Array[User]) => {
-        h("div#page",
-          h("div#t1.container", h("div", h("div", h("table", h("tbody", h("tr", h("td",
-            h("table#apInstances.table.table-striped", js.Array(
-              h("thead", h("tr",
-                User.fields.map(f => h("th", f._2: js.Any)).toJSArray
-              )),
-              h("tbody",
-                users.map(u => h("tr", js.Array(
-                  h("td", u.userId: js.Any),
-                  h("td", u.userName: js.Any),
-                  h("td", u.firstName: js.Any),
-                  h("td", u.lastName: js.Any),
-                  h("td", u.email: js.Any),
-                  h("td", u.active.toString: js.Any),
-                  h("td", u.hideFromClose.toString: js.Any)
-                )))
+        div(id = "page", contents =
+          div(id = "t1", classes = List("container"), contents = div(div(table(tbody(tr(td(
+            table(
+              id = "apInstances",
+              classes = List("table", "table-striped"),
+              contents = js.Array(
+                thead(tr(
+                  User.fields.map(f => th(f._2)).toJSArray
+                )),
+                tbody(
+                  users.map(u => tr(js.Array(
+                    td(u.userId),
+                    td(u.userName),
+                    td(u.firstName),
+                    td(u.lastName),
+                    td(u.email),
+                    td(u.active.toString),
+                    td(u.hideFromClose.toString)
+                  )))
+                )
               )
-            ))
+            )
           ))))))
         ))
       }

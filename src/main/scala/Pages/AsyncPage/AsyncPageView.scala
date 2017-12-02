@@ -1,7 +1,7 @@
 package Pages.AsyncPage
 
 import VNode.SnabbdomFacade.VNode
-import _root_.VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.{div, li, ul}
 import core.ApiEndpointFacade.JpTeam
 import core._
 import fr.hmil.roshttp.HttpRequest
@@ -43,18 +43,16 @@ class AsyncPageView(render: VNode => Unit) extends View[AsyncPageModel](render) 
           case e: Failure[SimpleHttpResponse] => println("Async call failed")
         })
         MarkInitialized(view)(model)()
-        h("div#page", "uninitialized!": js.Any)
+        div(id = "page", contents = "uninitialized!")
       }
-      case Waiting => {
-        h("div#page", js.Array(
-          h("span#yo", "waiting!": js.Any)
-        ))
-      }
-      case AsyncSuccess(teams: js.Array[JpTeam]) => {
-        h("div#page",
-          h("ul", teams.map(t => h("li", t.teamName + ": " + t.points: js.Any)))
+      case Waiting =>
+        div(id = "page", contents = "waiting!")
+      case AsyncSuccess(teams: js.Array[JpTeam]) =>
+        div(id = "page", contents =
+          ul(teams.map(
+            t => li(t.teamName + ": " + t.points)
+          ))
         )
-      }
     }
   }
 }

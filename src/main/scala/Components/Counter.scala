@@ -2,7 +2,6 @@ package Components
 
 import VNode.SnabbdomFacade.VNode
 import _root_.VNode.{div, input, span}
-import _root_.VNode.SnabbdomFacade.snabbdom.h
 import core.Component
 import core.Message.SpecificPageNoArgMessage
 

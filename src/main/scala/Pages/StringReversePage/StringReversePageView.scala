@@ -2,7 +2,7 @@ package Pages.StringReversePage
 
 import Components.StringReverse
 import VNode.SnabbdomFacade.VNode
-import _root_.VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.div
 import core.Message.SpecificPageMessage
 import core.{Message, View}
 
@@ -32,7 +32,7 @@ class StringReversePageView(render: VNode => Unit) extends View[StringReversePag
       new StringReverse(change)(model.lastName)
     }
 
-    h("div#page", js.Array(
+    div(id = "page", contents = js.Array(
       firstName.vnode,
       lastName.vnode
     ))
