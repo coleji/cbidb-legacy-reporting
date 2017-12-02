@@ -5,7 +5,9 @@ import Pages.ReportPage.Model.FilterState.{CompositeFilter, SingleFilter}
 import Pages.ReportPage.Model.ReportPageModel
 import core.Message.SpecificPageMessage
 import VNode.SnabbdomFacade.VNode
-import VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.SnabbdomFacade.snabbdom.h
+import _root_.VNode.{table, tbody, td}
+import sun.audio.ContinuousAudioDataStream
 
 import scala.scalajs.js
 import scala.scalajs.js.Dynamic.{literal => json}
@@ -86,7 +88,11 @@ case class FiltersComponent (
 
     h("table", h("tbody", h("tr", js.Array(
       h("td", {if (level > 0) borderRight else json()}, h("div.spacer", spacerProps, spacerChildren)),
-      h("td", paddingLeft, h("table", h("tbody", filterNodes)))
+      //h("td", paddingLeft, h("table", h("tbody", filterNodes)))
+      td(
+        style = Map("paddingLeft" -> "5px"),
+        contents = table(tbody(filterNodes))
+      )
     ))))
   }
 }

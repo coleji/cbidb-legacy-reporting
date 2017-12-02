@@ -7,14 +7,15 @@ import core.Main.Globals
 import scala.scalajs.js
 
 sealed abstract class VNodeConstructor(tag: String) {
-  def apply(
+  def apply[T](c: T)(implicit tc: VNodeContents[T]): VNode = apply(contents = c)
+  def apply[T](
     id: String = "",
     classes: List[String] = Nil,
     props: Map[String, String] = Map.empty,
     style: Map[String, String] = Map.empty,
     events: Map[String, js.Any] = Map.empty,
-    contents: Contents = Contents(js.Array())
-  ): VNode = {
+    contents: T = js.Array()
+  )(implicit tc: VNodeContents[T]): VNode = {
     // E.g. tag#id.class1.class2.class3
     val firstArg = List(
       tag,
@@ -28,7 +29,7 @@ sealed abstract class VNodeConstructor(tag: String) {
       "on" -> VNodeConstructor.MapToJsDictionary(events)
     )
 
-    h(firstArg, unifiedProps, contents.toJs)
+    h(firstArg, unifiedProps, tc.asJs(contents))
   }
 }
 

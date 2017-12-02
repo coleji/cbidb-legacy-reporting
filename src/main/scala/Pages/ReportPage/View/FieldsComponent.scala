@@ -4,7 +4,7 @@ import Pages.ReportPage.Model.ReportPageModel
 import core.Main.{Globals, Target}
 import core.Message.SpecificPageMessage
 import VNode.SnabbdomFacade.VNode
-import _root_.VNode.{Contents, option, select}
+import _root_.VNode.{option, select}
 import _root_.VNode.SnabbdomFacade.snabbdom.h
 import org.scalajs
 
@@ -27,15 +27,15 @@ case class FieldsComponent(
         Globals.testFn()
         updateFields(selectedOptions)
       })),
-      contents = Contents(model.selectedEntity.get.fieldData.map(rf => {
+      contents = model.selectedEntity.get.fieldData.map(rf => {
         option(
           props = Map(
             "value" -> rf.fieldName,
             "selected" -> { if (model.fields.get.contains(rf)) "selected" else "" }
           ),
-          contents = Contents(rf.fieldDisplayName)
+          contents = rf.fieldDisplayName
         )
-      }))
+      })
     )
   }
 }
