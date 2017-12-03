@@ -3,6 +3,7 @@ package core
 import CbiUtil.Initializable
 import Pages.AsyncPage.AsyncPage
 import Pages.CounterPage.CounterPage
+import Pages.LoginPage.LoginPage
 import Pages.ReportPage.ReportPage
 import Pages.StringReversePage.StringReversePage
 import Pages.UsersPage.UsersPage
@@ -19,6 +20,7 @@ object Router {
     case "/string-reverse" => StringReversePage(render.get)
     case "/async" => AsyncPage(render.get)
     case "/users" => UsersPage(render.get)
+    case "/login" => LoginPage(render.get)
     case _ => ReportPage(render.get)
   }
 

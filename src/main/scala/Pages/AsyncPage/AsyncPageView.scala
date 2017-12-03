@@ -28,7 +28,7 @@ class AsyncPageView(render: VNode => Unit) extends View[AsyncPageModel](render) 
   def apply(model: AsyncPageModel): VNode = {
     model.result match {
       case Uninitialized => {
-        val request = HttpRequest("http://localhost:9000/jp-teams")
+        val request = HttpRequest(Main.API_LOCATION + "/jp-teams")
         request.send().onComplete({
           case res:Success[SimpleHttpResponse] => {
             val teamList: js.Array[JpTeam] = {

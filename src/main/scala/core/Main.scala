@@ -1,6 +1,5 @@
 package core
 
-import Pages.ReportPage.ReportPage
 import VNode.SnabbdomFacade.{VNode, patch, toVNode}
 import _root_.VNode.div
 import org.scalajs.dom.document
@@ -9,6 +8,8 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobalScope
 
 object Main {
+  val API_LOCATION = "http://localhost:3000"
+
   @js.native
   class Target extends js.Object {
     val value: js.Any = js.native

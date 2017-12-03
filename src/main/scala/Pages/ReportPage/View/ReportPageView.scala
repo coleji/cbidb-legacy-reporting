@@ -24,7 +24,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
     // start render
     model.options match {
       case Uninitialized => {
-        val request = HttpRequest("http://localhost:9000/reporting/get-report-run-options")
+        val request = HttpRequest(Main.API_LOCATION + "/reporting/get-report-run-options")
         request.send().onComplete({
           case res:Success[SimpleHttpResponse] => SuccessMessage(view)(model)({
             val rawResult: String = res.get.body
@@ -47,9 +47,6 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           "width" -> "50%"
         )
 
-        println("dfgdfgdfgdfgdfgdfg")
-
-
         val fullWidth = Map("width" -> "100%")
         div(id = "whatever", contents = js.Array(
           entityDropdown,
@@ -71,7 +68,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
             )
           )))),
           br(),
-          form(props = Map("method" -> "post", "action" -> "http://localhost:9000/report"), contents = js.Array(
+          form(props = Map("method" -> "post", "action" -> (Main.API_LOCATION + "/report")), contents = js.Array(
             HiddenInput("baseEntityString", model.selectedEntity.get.entityName),
             HiddenInput("filterSpec", model.getSpecString),
             HiddenInput("fieldSpec", model.fields.get.map(f => f.fieldName).mkString(",")),

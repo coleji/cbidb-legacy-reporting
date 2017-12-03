@@ -29,7 +29,7 @@ class UsersPageView (render: VNode => Unit) extends View[UsersPageModel](render)
   def apply(model: UsersPageModel): VNode = {
     model.result match {
       case Uninitialized => {
-        val request = HttpRequest("http://localhost:9000/users")
+        val request = HttpRequest(Main.API_LOCATION + "/users")
         request.send().onComplete({
           case res:Success[SimpleHttpResponse] => SuccessMessage(view)(model)({
             val rawResult: String = res.get.body
