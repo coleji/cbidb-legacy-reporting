@@ -78,14 +78,7 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
               props = Map("type" -> "submit"),
               contents = "Run Report"
             )
-          )),
-          span(
-            events = Map("click" -> (() => {
-              println("here we go!")
-              Router.transition("/counter")
-            })),
-            contents = "Go To Counter"
-          )
+          ))
         ))
       }
     }

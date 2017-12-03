@@ -8,7 +8,6 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobalScope
 
 object Main {
-  val API_LOCATION = "http://localhost:3000"
 
   @js.native
   class Target extends js.Object {
@@ -24,6 +23,9 @@ object Main {
     object window extends js.Object {
       object location extends js.Object {
         def pathname: String = js.native
+        def host: String = js.native
+        def hostname: String = js.native
+        def protocol: String = js.native
       }
     }
     object history extends js.Object {
@@ -33,6 +35,9 @@ object Main {
 
   val dropdownNull: String = "%null%"
 
+  val BASE_LOCATION: String = Globals.window.location.protocol + "//" + Globals.window.location.host
+  val API_LOCATION: String = BASE_LOCATION + "/api"
+
   var rootElement: VNode = toVNode(document.getElementById("root"))
   def updateRootElement(newRoot: VNode): Unit = {
     patch(rootElement, newRoot)
@@ -41,6 +46,10 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     println("starting on path " + Globals.window.location.pathname)
+    println("host: " + Globals.window.location.host)
+    println("hostname: " + Globals.window.location.hostname)
+    println("protocol: " + Globals.window.location.protocol)
+    println(API_LOCATION)
     Router.render.set((view: VNode) => updateRootElement(div(id = "root", contents = view)))
     Router.route(Globals.window.location.pathname).renderPage()
     //UsersPage(render).renderPage()

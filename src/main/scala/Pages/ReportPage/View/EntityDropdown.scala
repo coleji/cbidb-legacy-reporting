@@ -14,7 +14,7 @@ case class EntityDropdown(
 ) {
   def apply(model: ReportPageModel): VNode =
     div(contents = js.Array(
-      span(contents = "@One row per...  "),
+      span(contents = "One row per...  "),
       select(
         id = "entity",
         events = Map("change" -> ((e: scalajs.dom.TextEvent) => {
