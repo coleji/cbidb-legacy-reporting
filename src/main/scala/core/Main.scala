@@ -2,10 +2,14 @@ package core
 
 import VNode.SnabbdomFacade.{VNode, patch, toVNode}
 import _root_.VNode.div
+import monix.execution.Scheduler
 import org.scalajs.dom.document
 
+import scala.concurrent.ExecutionContext
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobalScope
+import monix.execution.Scheduler.Implicits.global
+
 
 object Main {
 
@@ -51,7 +55,10 @@ object Main {
     println("protocol: " + Globals.window.location.protocol)
     println(API_LOCATION)
     Router.render.set((view: VNode) => updateRootElement(div(id = "root", contents = view)))
-    Router.route(Globals.window.location.pathname).renderPage()
+    Router.route(Globals.window.location.pathname).map(p => {
+      import scala.concurrent.ExecutionContext.Implicits.global
+      p.renderPage()
+    })
     //UsersPage(render).renderPage()
     //AsyncPage(render).renderPage()
     //StringReversePage(render).renderPage()
