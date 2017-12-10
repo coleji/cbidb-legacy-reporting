@@ -42,6 +42,7 @@ object VNodeConstructor {
   }
 }
 
+case object a extends VNodeConstructor("a")
 case object br extends VNodeConstructor("br")
 case object button extends VNodeConstructor("button")
 case object div extends VNodeConstructor("div")

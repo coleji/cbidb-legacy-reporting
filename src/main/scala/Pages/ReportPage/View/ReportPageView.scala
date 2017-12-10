@@ -34,10 +34,10 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           case e: Failure[SimpleHttpResponse] => println("Async call failed")
         })
         MarkInitialized(view)(model)()
-        div(id = "page", contents = "uninitialized!")
+        div(id = "page", contents = "Loading...")
       }
       case Waiting => {
-        div(id = "page", contents = span("waiting!"))
+        div(id = "page", contents = span("Loading..."))
       }
       case AsyncSuccess(_: js.Array[ReportableEntity]) => {
         val entityDropdown: VNode = EntityDropdown(SetEntity(view)(model))(model)
@@ -47,10 +47,21 @@ class ReportPageView(render: VNode => Unit) extends View[ReportPageModel](render
           "width" -> "50%"
         )
 
-        val fullWidth = Map("width" -> "100%")
         div(id = "whatever", contents = js.Array(
+          div(
+            id = "logout-div",
+            style = Map("float" -> "right"),
+            contents = form(
+              id = "form-logout",
+              props = Map("method" -> "post", "action" -> (Main.API_LOCATION + "/logout")),
+              contents = a(
+                props = Map("href" -> "javascript:document.getElementById('form-logout').submit()"),
+                contents = "Logout"
+              )
+            )
+          ),
           entityDropdown,
-          table(style = fullWidth, contents = tbody(tr(js.Array(
+          table(style = Map("width" -> "100%"), contents = tbody(tr(js.Array(
             td(style = tdStyle, contents = model.filters match {
               case None => span("no filters")
               case Some(cf: CompositeFilter) => FiltersComponent(
