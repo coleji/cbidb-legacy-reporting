@@ -1,0 +1,7 @@
+current design is not really model-view-intent
+intents are really "state mutators", i.e. loaded guns 
+each component is preloaded with exactly how its interaction should change state
+
+refactor: components should know nothing about how their intents should modify state
+change intents to actual data (case classes or objects for parameterless intents)
+should result in the vdom doing less work (i.e. intents wont change but mutator functions might)
